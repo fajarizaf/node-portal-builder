@@ -4,17 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserRole extends Model
+class Site_payment_method extends Model
 {
-    protected $table = 'user_roles';
+    protected $table = 'site_payment_method';
     protected $primaryKey = 'id';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'role_name',
-        'role_type',
-        'status_id',
+        'payment_method_name',
+        'payment_method_name',
+        'is_active'
     ];
 
 }

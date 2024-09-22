@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersRoles extends Migration
+class SiteStatus extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateUsersRoles extends Migration
      */
     public function up()
     {
-        Schema::create('user_roles', function (Blueprint $table) {
+        Schema::create('site_status', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('status_code')->unique();
+            $table->string('status_name');
         });
     }
 
@@ -26,6 +27,6 @@ class CreateUsersRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_roles');
+        Schema::dropIfExists('site_status');
     }
 }
