@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+	#Start of Google Analytics verification for Laravel
+	RewriteCond $1 !^(index\.php|public|robots|googlee4e6c61b938b2648\.html) 
+
+	RewriteRule ^([0-9A-Za-z-:._/\x7f-\xff]*)$ /public/index.php/$1 [L]
+	#End of Google Analytics Verification for Laravel
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
