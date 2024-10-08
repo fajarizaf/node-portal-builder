@@ -17,8 +17,8 @@ class UserInvoicesPayment extends Migration
             $table->id();
             $table->unsignedBigInteger('invoices_id');
             $table->integer('payment_method');
-            $table->string('trx_id');
-            $table->string('trx_status');
+            $table->string('trx_id')->nullable();
+            $table->string('trx_status')->nullable();
 
             $table->foreign('invoices_id')->references('id')->on('user_invoices');
         });

@@ -20,7 +20,9 @@ class users extends Seeder
             'role_id' => 1,
             'name' => 'Fajar Riza Fauzi',
             'email' => 'admin@nodebuilder.id',
-            'password' => Hash::make('nodebuilder'),
+            'password' => bcrypt('nodebuilder'),
+            'telp' => '+6282125649665',
+            'is_active' => 1,
             'created_at' => Carbon::now()->toDateTimeString(),
             'updated_at' => Carbon::now()->toDateTimeString()
         ]);
@@ -29,7 +31,9 @@ class users extends Seeder
             'role_id' => 2,
             'name' => 'Fajar Riza Fauzi',
             'email' => 'reseller@nodebuilder.id',
-            'password' => Hash::make('nodebuilder'),
+            'password' => bcrypt('nodebuilder'),
+            'telp' => '+6282125649665',
+            'is_active' => 1,
             'created_at' => Carbon::now()->toDateTimeString(),
             'updated_at' => Carbon::now()->toDateTimeString()
         ]);

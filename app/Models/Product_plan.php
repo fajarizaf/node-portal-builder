@@ -13,6 +13,7 @@ class Product_plan extends Model
 
     protected $fillable = [
         'user_id',
+        'product_type',
         'product_group_id',
         'product_plan_name',
         'product_plan_code',
@@ -22,6 +23,8 @@ class Product_plan extends Model
         'product_stock',
         'is_hidden',
         'product_template_email',
+        'product_source',
+        'product_source_type'
     ];
 
 }

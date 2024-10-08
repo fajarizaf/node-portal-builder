@@ -17,16 +17,19 @@ class UserOrder extends Migration
             $table->id();
             $table->string('order_number')->unique();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('seller_id');
             $table->integer('sub_total');
-            $table->integer('tax_rate')->length(5);
-            $table->integer('tax')->length(20);
+            $table->integer('tax_rate')->length(5)->nullable();
+            $table->integer('tax')->length(20)->nullable();
             $table->integer('total')->length(200);
+            $table->text('order_notes')->nullable();
+            $table->text('domain_tipe')->nullable();
+            $table->text('domain')->nullable();
             $table->string('status_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('customer_id')->references('id')->on('users');
+            $table->foreign('seller_id')->references('id')->on('users');
             $table->foreign('status_id')->references('status_code')->on('site_status');
         });
     }

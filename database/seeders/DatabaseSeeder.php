@@ -22,6 +22,11 @@ class DatabaseSeeder extends Seeder
             users::class,
             site_payment_method::class,
             product_group::class,
+            product_plan::class,
+            product_price::class,
+            site_layout::class,
+            user_order::class,
+            user_package::class,
         ]);
 
     }

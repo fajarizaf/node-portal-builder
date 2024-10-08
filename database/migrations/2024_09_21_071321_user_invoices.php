@@ -21,7 +21,7 @@ class UserInvoices extends Migration
             $table->timestamp('invoices_date')->nullable();
             $table->timestamp('invoices_duedate')->nullable();
             $table->timestamp('invoices_datepaid')->nullable();
-            $table->integer('tax')->length(5);
+            $table->integer('tax')->length(5)->nullable();
             $table->integer('sub_total')->length(200);
             $table->integer('total')->length(200);
             $table->integer('is_publish')->length(1);

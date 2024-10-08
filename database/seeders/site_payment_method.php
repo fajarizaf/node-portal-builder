@@ -16,8 +16,15 @@ class site_payment_method extends Seeder
     {
         DB::table('site_payment_method')->insert([
             'payment_method_name' => 'Bank Transfer',
-            'payment_method_info' => 'Transfer ke rekening BCA Atas Nama Fajar Riza Fauzi No Rekening 83739348453',
+            'payment_method_logo' => 'bank_transfer.png',
             'is_active' => 1,
         ]);
+
+        DB::table('site_payment_method')->insert([
+            'payment_method_name' => 'COD',
+            'payment_method_logo' => 'cod.png',
+            'is_active' => 1,
+        ]);
+
     }
 }

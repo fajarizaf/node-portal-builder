@@ -39,5 +39,10 @@ class site_status extends Seeder
             'status_name' => 'unpaid',
             'status_code' => '1005',
         ]);
+
+        DB::table('site_status')->insert([
+            'status_name' => 'complete',
+            'status_code' => '1006',
+        ]);
     }
 }

@@ -16,10 +16,9 @@ class UserSubscriptions extends Migration
         Schema::create('user_subscriptions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('reseller_id');
+            $table->integer('reseller_id')->nullable();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_plan_id');
-            $table->integer('site_id');
             $table->string('billing_cycle');
             $table->integer('amount');
             $table->integer('is_free')->length(1);

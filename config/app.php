@@ -229,6 +229,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'SiteHelper' => App\Helpers\SiteHelper::class,
+        'LayoutHelper' => App\Helpers\LayoutHelper::class,
+        'ProdukHelper' => App\Helpers\ProdukHelper::class,
+        'StoreHelper' => App\Helpers\StoreHelper::class,
 
     ],
 

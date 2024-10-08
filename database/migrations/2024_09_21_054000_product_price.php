@@ -22,7 +22,7 @@ class ProductPrice extends Migration
             $table->integer('is_enable')->length(1);
             $table->timestamps();
 
-            $table->foreign('product_id')->references('id')->on('product_plan');
+            $table->foreign('product_id')->references('id')->on('product_plan')->onDelete('cascade');
         });
     }
 

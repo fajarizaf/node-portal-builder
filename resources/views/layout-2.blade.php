@@ -46,9 +46,9 @@
 
   <div class="page">
 
-    @include('component.navbar')
+    
 
-    <div class="page-wrapper">
+    <div class="page-wrapper" style="background:#f4f7fc">
       @yield('container')
     </div>
 

@@ -12,7 +12,7 @@ class User_invoices_item extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'invoice_id',
+        'invoices_id',
         'order_id',
         'user_id',
         'item_name',

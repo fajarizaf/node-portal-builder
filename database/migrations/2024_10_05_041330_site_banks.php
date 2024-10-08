@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Customers extends Migration
+class SiteBanks extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class Customers extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('customer_name');
-            $table->integer('customer_email');
-            $table->integer('customer_telp');
-            $table->timestamps();
+        Schema::create('site_banks', function (Blueprint $table) {
+            $table->id();
+            $table->string('bank_name');
+            $table->string('bank_logo');
         });
     }
 
@@ -29,6 +27,6 @@ class Customers extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('site_banks');
     }
 }

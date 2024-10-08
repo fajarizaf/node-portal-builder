@@ -1,0 +1,72 @@
+
+.browser {
+    --browser-radius: var(--tblr-radius-lg);
+    border-radius: var(--browser-radius);
+    box-shadow: 0 0 0 1px var(--tblr-stroke-color-secondary);
+    background: var(--tblr-color-background-primary)
+}
+
+.browser-header {
+    padding: .5rem 1rem;
+    background: var(--tblr-color-background-secondary) linear-gradient(to bottom,transparent,rgba(59,69,78,.03));
+    border-bottom: var(--tblr-stroke-width) solid var(--tblr-stroke-color-secondary);
+    border-radius: calc(var(--browser-radius) + 1px) calc(var(--browser-radius) + 1px) 0 0
+}
+
+.browser-image {
+    border-radius: 0 0 calc(var(--browser-radius) + 1px) calc(var(--browser-radius) + 1px)
+}
+
+.browser-dots {
+    margin-right: var(--tblr-space-4xl);
+    display: flex
+}
+
+.browser-dot {
+    margin-right: var(--tblr-space-xs);
+    width: var(--tblr-space-sm);
+    min-width: var(--tblr-space-sm);
+    height: var(--tblr-space-sm);
+    background: var(--tblr-color-fill-primary);
+    border-radius: var(--tblr-radius-full);
+    border: var(--tblr-stroke-width) solid var(--tblr-stroke-color-primary)
+}
+
+.browser-dot:first-child {
+    background: #fb6058
+}
+
+.browser-dot:nth-child(2) {
+    background: #fcbe3b
+}
+
+.browser-dot:nth-child(3) {
+    background: #2ccb4c
+}
+
+.browser-input {
+    flex: 1 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: var(--tblr-space-2xs);
+    color: var(--tblr-color-text-secondary);
+    font-size: var(--tblr-font-size-xs);
+    border-radius: var(--tblr-radius);
+    line-height: var(--tblr-space-md);
+    cursor: pointer;
+    box-shadow: var(--tblr-shadow-inset);
+    background-image: linear-gradient(to bottom,var(--tblr-color-background-primary),var(--tblr-color-background-secondary))
+}
+
+.browser-input .icon {
+    color: var(--tblr-color-green);
+    margin-right: var(--tblr-space-2xs);
+    display: inline-block
+}
+
+.browser-noresize .browser-image img,.browser-noresize .browser-image picture {
+    max-width: none
+}
+

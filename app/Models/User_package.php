@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User_subscriptions extends Model
+class User_package extends Model
 {
-    protected $table = 'user_subscription';
+    protected $table = 'user_package';
     protected $primaryKey = 'id';
 
     public $timestamps = true;
@@ -16,7 +16,6 @@ class User_subscriptions extends Model
         'reseller_id',
         'order_id',
         'product_plan_id',
-        'site_id',
         'billing_cycle',
         'amount',
         'is_free',

@@ -22,8 +22,20 @@ class user_roles extends Seeder
         ]);
 
         DB::table('user_roles')->insert([
-            'role_name' => 'administrator',
+            'role_name' => 'customer',
             'role_type' => 'reseller',
+            'status_id' => '1001'
+        ]);
+
+        DB::table('user_roles')->insert([
+            'role_name' => 'customer',
+            'role_type' => 'seller',
+            'status_id' => '1001'
+        ]);
+
+        DB::table('user_roles')->insert([
+            'role_name' => 'customer',
+            'role_type' => 'buyer',
             'status_id' => '1001'
         ]);
 

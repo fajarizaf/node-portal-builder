@@ -4,18 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Customers extends Model
+class Site extends Model
 {
-    protected $table = 'customers';
+    protected $table = 'site';
     protected $primaryKey = 'id';
 
     public $timestamps = true;
 
     protected $fillable = [
         'user_id',
-        'customer_name',
-        'customer_email',
-        'customer_telp',
+        'domain_name',
+        'site_id',
+        'domain_id',
+        'logo',
+        'screenshot',
+        'status_id',
     ];
 
 }

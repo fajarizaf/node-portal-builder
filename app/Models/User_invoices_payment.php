@@ -12,7 +12,7 @@ class User_invoices_payment extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'invoice_id',
+        'invoices_id',
         'payment_method',
         'trx_id',
         'trx_status'
