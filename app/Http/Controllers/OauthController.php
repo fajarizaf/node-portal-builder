@@ -14,7 +14,7 @@ class OauthController extends Controller
 
     public function redirectToProvider()
     {
-        return Socialite::driver('google')->stateless()->user();
+        return Socialite::driver('google')->stateless()->redirect();
     }
 
     public function handleProviderCallback()
