@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OauthController;
 use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,10 @@ use App\Http\Controllers\CredentialController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('oauth/google', [OauthController::class, 'redirectToProvider'])->name('oauth.google');  
+Route::get('oauth/google/callback', [OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
+
 Route::get('/', [CredentialController::class, 'index'])->name('index');
 Route::get('/login', [CredentialController::class, 'login'])->name('login');
 

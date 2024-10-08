@@ -23,7 +23,9 @@ class Users extends Authenticatable
         'email',
         'password',
         'telp',
-        'is_active'
+        'is_active',
+        'gauth_id',
+        'gauth_type'
     ];
 
     /**
