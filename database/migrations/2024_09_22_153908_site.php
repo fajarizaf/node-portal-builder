@@ -25,7 +25,6 @@ class Site extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('product_plan_id')->references('id')->on('product_plan');
             $table->foreign('status_id')->references('status_code')->on('site_status');
         });
     }
