@@ -15,7 +15,6 @@ class UserOrder extends Migration
     {
         Schema::create('user_order', function (Blueprint $table) {
             $table->id();
-            $table->string('order_number')->unique();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('seller_id');
             $table->integer('sub_total');

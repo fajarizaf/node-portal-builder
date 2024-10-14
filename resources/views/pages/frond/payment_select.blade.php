@@ -34,20 +34,29 @@
 
 </style>
 
+@php $total = 0; @endphp
+@forelse($invoices_item as $item)
+
+@php
+$sub = $item->amount * $item->qty;
+$total = $total + $sub;
+@endphp
+
+@empty
+
+@endforelse
+
 
 <div class="card-body">
     <div class="accordion" id="accordion-example">
         <div class="accordion-item" style="background:#f4f7fc">
             <h2 class="accordion-header" id="heading-1">
                 <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true">
-                    Ringkasan Tagihan
-
+                    Tagihan - <b>IDR. {{number_format($total)}}</b>
                 </button>
             </h2>
-            <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
+            <div id="collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
                 <div class="">
-
-
                     <table class="table table-transparent table-responsive">
                         <thead>
                             <tr>
@@ -102,13 +111,6 @@
         </div>
     </div>
 </div>
-<br />
-<br />
-<br />
-
-
-
-
 
 <script>
     $('document').ready(function() {

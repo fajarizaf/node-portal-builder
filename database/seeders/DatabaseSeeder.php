@@ -24,9 +24,11 @@ class DatabaseSeeder extends Seeder
             product_group::class,
             product_plan::class,
             product_price::class,
+            product_plan_fitur::class,
             site_layout::class,
             user_order::class,
             user_package::class,
+            site_bank::class,
         ]);
 
     }

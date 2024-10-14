@@ -14,8 +14,10 @@ class User_invoices_payment extends Model
     protected $fillable = [
         'invoices_id',
         'payment_method',
-        'trx_id',
-        'trx_status'
+        'payment_expired',
+        'payment_references',
+        'payment_virtualaccount',
+        'payment_amount'
     ];
 
 }

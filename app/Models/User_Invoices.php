@@ -12,7 +12,6 @@ class User_invoices extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'invoices_number',
         'user_id',
         'invoices_type',
         'invoices_date',

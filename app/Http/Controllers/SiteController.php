@@ -37,9 +37,7 @@ class SiteController extends Controller
 
         $site = Site::latest();
 
-        $site->where('site.user_id', auth()->user()->id);
-        $site->join('user_order','user_order.id','=','site.order_id');
-        $site->select('site.id','user_order.domain','site.product_plan_id','site.created_at');
+        $site->where('user_id', auth()->user()->id);
         $site->get();
 
         return view('pages/manage/site',[
@@ -84,7 +82,7 @@ class SiteController extends Controller
 
             // buat layanan untuk pelanggan baru
             $CREATE_SITE = Site::create([
-                'user_id' => Session::get('user_id'),
+                'user_id' => auth()->user()->id,
                 'domain_name' => $domain,
                 'status_id' => '1003'
             ]);
@@ -150,7 +148,7 @@ class SiteController extends Controller
 
         }
 
-        $customer_email = Users::where('id',Session::get('user_id'))->first()->email;
+        $customer_email = Users::where('id',auth()->user()->id)->first()->email;
 
         return view('pages/frond/building', [
             'subscription_id' => $site_id,
@@ -368,7 +366,7 @@ class SiteController extends Controller
     {
         try {
             
-            $get_status = Build_status::where('domain_name', $request->domain)->where('step', 5)->first();
+            $get_status = Build_status::where('domain_name', $request->domain_name)->where('step', 5)->first();
         
             if($get_status->step_status == 0) {
 
@@ -377,14 +375,14 @@ class SiteController extends Controller
                 $response = Http::withToken(env('BACKEND_TOKEN'))
                     ->post(env('BACKEND_URL').'/site/setup/cms', [
                     "domain_id" => $request->domain_id,
-                    "db_name" => $request->domain,
+                    "db_name" => $request->domain_name,
                     "email_login" => $editor->username_editor,
                     "pass_login" => $editor->password_editor,
                 ])->json();
 
                 if($response['status'] == 'success') {
 
-                    Build_status::where('domain_name', $request->domain)
+                    Build_status::where('domain_name', $request->domain_name)
                     ->where('step', 5)
                     ->update(['step_status'=> 1]);
 

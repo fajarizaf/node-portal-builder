@@ -12,7 +12,6 @@ class User_orders extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'order_number',
         'user_id',
         'seller_id',
         'sub_total',

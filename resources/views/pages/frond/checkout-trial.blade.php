@@ -40,27 +40,27 @@
         <div class="container px-5 pt-4">
             <div class="row g-0 flex-fill">
                 <div class="col-12 col-lg-5"></div>
-                <div class="col-12 col-lg-7">
+                <div class="col-12 col-lg-7 p-3">
                     <div class="row g-0 flex-fill">
                         <div class="col-12 col-lg-4">
-                            @if(empty(auth()->user()->id))
-                            <img src="{{ URL::asset('/assets/static/logo.png') }}" />
+                            @if(empty(Session::get('user_packge')))
+                            <img src="{{ URL::asset('/assets/static/logo.png') }}" style="margin-top:12px" />
                             @endif
                         </div>
                         <div class="col-12 col-lg-8">
                             <ul class="steps steps-green my-4">
-                                <li class="step-item active">Isi Data Diri</li>
+                                <li class="step-item active">Domain</li>
                                 <li class="step-item ">Instalasi web</li>
                                 <li class="step-item">Selesai</li>
                             </ul>
                         </div>
                     </div>
                     <br />
-                    <br />
-                    <br />
+
+                    @if($is_trial == 1)
                     <p class="fs-1">Mulai uji coba<b> gratis 7 hari Anda</b></p>
                     <p><b>Uji coba Anda sepenuhnya gratis.</b>Kami meminta Anda untuk memberikan informasi pembayaran sekarang untuk menghindari gangguan layanan setelah masa uji coba berakhir.</p>
-
+                    @endif
                     <div class="form-label">Produk dipilih :</div>
 
                     <form method="POST" action="/switch" id="form-product">
@@ -84,25 +84,6 @@
                         <span class="input-group-text">.nodebuilder.id</span>
                     </div>
                     <br />
-                    <div class="mb-3">
-                        <label class="form-label required">Nama</label>
-                        <div>
-                            <input type="text" class="form-control nama" aria-describedby="emailHelp" name="name" placeholder="Masukan Nama Lengkap">
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label required">Email</label>
-                        <div>
-                            <input type="email" class="form-control email" aria-describedby="emailHelp" name="email" placeholder="Enter email">
-                            <small class="form-hint">alamat email ini nantinya digunakan untuk login ke area pelanggan.</small>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label required">Nomor HP</label>
-                        <div>
-                            <input type="password" class="form-control no_hp" name="password" placeholder="Password">
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -117,12 +98,17 @@
                     <div class="row g-0 flex-fill">
                         <div class="col-12 col-lg-6">
                             <h2 class="h2 text-left mb-3">
-                                Ringkasan Pesanan
+                                Ringkasan <br />Pesanan
                             </h2>
                         </div>
                         <div class="col-12 col-lg-6">
                             <div class="mb-3">
                                 <form method="GET" action="/checkout/{{ urlencode(request()->product_id) }}" id="form-product">
+                                    @if($is_trial == 1)
+                                    <input type="text" name="is_trial" value="1" style="display:none" />
+                                    @else
+                                    <input type="text" name="is_trial" value="0" style="display:none" />
+                                    @endif
                                     <select class="form-select" name="billing_cycle" id="billing_cycle">
                                         <option value="{{$billing_cycle_selected}}">{{$billing_cycle_selected}}</option>
                                         @forelse($product_cycle as $cycle)
@@ -152,7 +138,6 @@
                                         <input type="hidden" name="product_item_group[]" value="{{ $product_selected->product_group_name }}" />
                                         <input type="hidden" name="product_item_name[]" value="{{ $product_selected->product_plan_name }}" />
                                         <input type="hidden" name="product_item_qty[]" value="1" />
-                                        <div class="text-secondary">Paket berlangganan 3 bulan</div>
                                     </td>
                                     <td class="text-end">
                                         <input type="hidden" name="product_item_price[]" value="{{ $product_selected->price }}" />
@@ -162,13 +147,19 @@
                                 <tr>
                                     <td class="strong text-start">Total Tagihan</td>
                                     <td class="text-end" style="color:#29b662;">
+                                        @if($is_trial == 1)
                                         <h2>IDR. 0</h2>
+                                        @else
+                                        <h2>IDR. {{ number_format($product_selected->price, 0,'.', '.') }}</h2>
+                                        @endif
                                     </td>
                                 </tr>
+                                @if($is_trial == 1)
                                 <tr>
                                     <td style="border-bottom:none" class="strong text-start">Tagihan berikutnya<br /><small class="form-hint">Apabila ingin berlangganan</small></td>
                                     <td class="text-end" style="border-bottom:none"><b>IDR. {{number_format($product_selected->price, 0,'.', '.')}}</b></td>
                                 </tr>
+                                @endif
                             </tbody>
                         </table>
 
@@ -177,15 +168,26 @@
                         <input type="hidden" name="billing_cycle" value="{{ $billing_cycle_selected }}" />
                         <input type="hidden" name="product_owner" value="{{ $product_selected->user_id }}" />
                         <input type="hidden" name="subdomain" class="input_subdomain" value="" />
-                        <input type="hidden" name="nama" class="input_nama" value="" />
-                        <input type="hidden" name="email" class="input_email" value="" />
-                        <input type="hidden" name="no_hp" class="input_no_hp" value="" />
                         <input type="hidden" name="total_tagihan" class="input_total_tagihan" value="{{$product_selected->price}}" />
                         <input type="hidden" name="total_tax_rate" class="input_tax_rate" value="0" />
                         <input type="hidden" name="total_tax" class="input_tax" value="0" />
-                        <input type="hidden" name="order_type" class="input_order_type" value="trial" />
+                        <input type="hidden" name="order_type" class="input_order_type" value="{{$order_type}}" />
+                        <input type="hidden" name="is_trial" class="input_is_trial" value="{{$is_trial}}" />
+
+
                         <input type="hidden" name="order_promo" class="input_order_promo" value="Free Trial 7 Hari" />
-                        <input type="submit" class="btn btn-primary w-100 btn-trial" value="Mulai Uji Coba Gratis 7 Hari" />
+
+                        <button type="submit" class="btn btn-primary w-100 btn-trial">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-basket">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M10 14a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M5.001 8h13.999a2 2 0 0 1 1.977 2.304l-1.255 7.152a3 3 0 0 1 -2.966 2.544h-9.512a3 3 0 0 1 -2.965 -2.544l-1.255 -7.152a2 2 0 0 1 1.977 -2.304z" />
+                                <path d="M17 10l-2 -6" />
+                                <path d="M7 10l2 -6" />
+                            </svg>
+                            &nbsp;
+                            @if($is_trial == 1) Mulai Uji Coba Gratis 7 Hari @else Pesan Sekarang @endif
+                        </button>
                     </form>
 
                 </div>

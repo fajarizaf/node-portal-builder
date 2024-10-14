@@ -10,7 +10,8 @@
 
 @if(session()->has('failed'))
 <div class="alert alert-important alert-failed alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
-    {{ session('faild') }}
+    {{ session('failed') }}
+
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
@@ -323,23 +324,30 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                                 <input type="text" style="display:none" name="site" class="site_id" value="{{ $site_active }}" />
 
-                                @forelse($payment_method as $pay)
 
-                                <div class="form-selectgroup-label d-flex align-items-center p-3" style="margin-bottom:10px;">
-                                    <div class="me-3">
-                                        <input class="form-check-input" name="payment[]" value="{{$pay->id}}" type="checkbox" @if(StoreHelper::User_payment_active($pay->id) != 0) checked="" @endif>
-                                    </div>
-                                    <div class="form-selectgroup-label-content d-flex align-items-center">
-                                        <img class="cropped" style="height:40px;margin-right:20px;" src="{{ URL::asset('/assets/image/'.$pay->payment_method_logo.'') }}" />
-                                        <div>
-                                            <div class="text-secondary"><b>{{$pay->payment_method_name}}</b></div>
+
+                                <div class="row flex-fill">
+
+                                    @forelse($payment_method as $pay)
+
+                                    <div class="col-12 col-xl-5.5 form-selectgroup-label d-flex align-items-center p-3 m-2">
+                                        <div class="me-3">
+                                            <input class="form-check-input" name="payment[]" value="{{$pay->id}}" type="checkbox" @if(StoreHelper::User_payment_active($pay->id) != 0) checked="" @endif>
+                                        </div>
+                                        <div class="form-selectgroup-label-content d-flex align-items-center">
+                                            <img class="cropped" style="height:60px;margin-right:20px;" src="{{ URL::asset('/assets/image/channel/'.$pay->payment_method_logo.'') }}" />
+                                            <div>
+                                                <small>{{$pay->payment_method_group}}</small>
+                                                <div class="text-secondary"><b>{{$pay->payment_method_name}}</b></div>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    @empty
+
+                                    @endforelse
                                 </div>
 
-                                @empty
-
-                                @endforelse
                                 <br />
                                 <button class="btn btn-primary" type="Submit">Simpan Perubahan</button>
                             </form>

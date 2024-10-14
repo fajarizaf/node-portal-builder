@@ -15,7 +15,6 @@ class UserInvoices extends Migration
     {
         Schema::create('user_invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('invoices_number')->unique();
             $table->unsignedBigInteger('user_id');
             $table->string('invoices_type');
             $table->timestamp('invoices_date')->nullable();

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\DuitkuHelper;
 use App\Models\Product_asigned;
 use App\Models\Product_photo;
 use App\Models\Site_banks;
+use App\Models\Site_payment_method;
 use App\Models\User_bank;
 use App\Models\User_invoices;
 use App\Models\User_invoices_item;
@@ -29,11 +31,71 @@ use App\Models\Build_status;
 use App\Models\User_subscriptions;
 use App\Models\Site;
 use App\Models\Users;
+use OrderHelper;
 use ProdukHelper;
+use Royryando\Duitku\Facades\Duitku;
 use SiteHelper;
 
 class OrderController extends Controller
 {
+
+    public function duitku_create_invoices(Request $request) {
+
+        $test = Duitku::createInvoice('ORDER-0017', 100000, 'IQ', 'Product Name', 'John Doe', 'john@example.com', 120);
+        dd($test);
+    }
+
+    public function duitku_payment_method(Request $request) {
+
+        $test = Duitku::paymentMethods(100000);
+        dd($test);
+    }
+
+    public function list(Request $request) {
+
+        $site = SiteHelper::My_Site();
+        $active_site_first = SiteHelper::Site_active_first();
+        
+        if(!empty($request->site)) {
+            $site_active = $request->site;
+        } else {
+            if($active_site_first) {
+                $site_active = $active_site_first->id;
+            } else {
+                $site_active = 0;
+            }
+        }
+
+        $order = User_orders::latest();
+        $order->where('user_order.seller_id', auth()->user()->id);
+        $order->join('user_order_item', 'user_order_item.order_id', '=', 'user_order.id');
+        $order->join('product_plan', 'product_plan.id', '=', 'user_order_item.product_id');
+        $order->join('product_asigned', 'product_asigned.product_id', '=', 'product_plan.id');
+        $order->join('user_invoices_item', 'user_invoices_item.order_id', '=', 'user_order.id');
+        $order->join('user_invoices', 'user_invoices.id', '=', 'user_invoices_item.invoices_id');
+        $order->join('site_status', 'site_status.status_code', '=', 'user_invoices.status_id');
+        
+        $order->where('user_invoices.status_id', '1005');
+        $order->orderBy('user_invoices.invoices_date', 'desc');
+        $order->where('product_asigned.site_id', $site_active);
+        $order->select('user_order.id',
+            'user_order.created_at',
+            'user_order_item.product_group_name',
+            'user_order_item.product_plan_name',
+            'site_status.status_name',
+            'product_plan.product_type',
+            'user_order.total',
+            'user_invoices_item.invoices_id'
+        );
+
+        return view('pages/manage/order',[
+                'order' => $order->paginate(5)->withQueryString(),
+                'sites' => $site,
+                'site_active' => $site_active
+        ]);
+
+    }
+
 
     public function order(Request $request, $product_id) {
 
@@ -95,94 +157,98 @@ class OrderController extends Controller
 
             $password = Str::random(6);
 
-            // insert new account buyer
-            $CREATE_BUYER = DB::table('users')->insertGetId([
-                'role_id' => 4, // buyer
-                'name' => $request->nama,
-                'email' => $request->email,
-                'password' => bcrypt($password),
-                'telp'=> $request->no_hp
-            ]);
+            $customer_exist = Users::where('email', $request->email)->count();
 
-            $ORDER_NUMBER = IdGenerator::generate(['table' => 'user_order', 'field' => 'order_number', 'length' => 15, 'prefix' => 'ORDER-']);
-            $product_item_id = $request->input('product_item_id');
+                if($customer_exist == 0) {
+                    // insert new account buyer
+                    $CREATE_BUYER = DB::table('users')->insertGetId([
+                        'role_id' => 4, // buyer
+                        'name' => $request->nama,
+                        'email' => $request->email,
+                        'password' => bcrypt($password),
+                        'telp'=> $request->no_hp
+                    ]);
 
-            // insert new order
-            $CREATE_ORDER = DB::table('user_order')->insertGetId([
-                'order_number' => $ORDER_NUMBER,
-                'user_id' => $CREATE_BUYER,
-                'seller_id' => ProdukHelper::get_product_owner($product_item_id[0]),
-                'sub_total' => $request->total_tagihan,
-                'tax_rate' => $request->total_tax_rate,
-                'tax' => $request->total_tax,
-                'total' => $request->total_tagihan,
-                'status_id' => '1003', // pending
-            ]);
+                } else {
+                    $CREATE_BUYER = Users::where('email', $request->email)->first()->id;
+                }
 
-            $product_item_name = $request->product_item_name;
+                
+                $product_item_id = $request->input('product_item_id');
 
-
-            $product_item_group = $request->input('product_item_group');
-            $product_item_price = $request->input('product_item_price');
-            $product_item_qty = $request->input('product_item_qty');
-
-            $sub_total = 0;
-            $total = 0;
-
-            // insert new order item
-            for ($item = 0; $item < count($product_item_name); $item++) {
-
-                $CREATE_ORDER_ITEM = DB::table('user_order_item')->insert([
-                    'order_id' => $CREATE_ORDER,
-                    'product_id' => $product_item_id[$item],
-                    'product_group_name' => $product_item_group[$item],
-                    'product_plan_name' => $product_item_name[$item],
-                    'unit_price' => $product_item_price[$item],
-                    'qty' => $product_item_qty[$item],
-                    'promo' => $request->order_promo,
-                    'billing_cycle' => $request->billing_cycle,
-                ]);
-
-                $sub_total_item = $product_item_price[$item] * $product_item_qty[$item];
-                $sub_total = $sub_total + $sub_total_item;
-                $total = $total + $sub_total_item;
-                        
-            }
-
-
-            $INVOICES_NUMBER = IdGenerator::generate(['table' => 'user_invoices', 'field' => 'invoices_number', 'length' => 15, 'prefix' => 'INV-']);
-            
-            // insert new invoices      
-            $CREATE_INVOICES = DB::table('user_invoices')->insertGetId([
-                'invoices_number' => $INVOICES_NUMBER,
-                'user_id' => $CREATE_BUYER,
-                'invoices_type' => 'register',
-                'invoices_date' => Carbon::now(),
-                'invoices_duedate' => Carbon::now()->addDays(7),
-                'tax' => $request->total_tax_rate,
-                'sub_total' => $sub_total,
-                'total' => $total,
-                'is_publish' => 1,
-                'status_id' => '1005', // unpaid
-            ]);
-
-            // insert new invoices item
-            for ($item = 0; $item < count($product_item_name); $item++) {
-
-                $CREATE_INVOICES_ITEM = DB::table('user_invoices_item')->insert([
-                    'invoices_id' => $CREATE_INVOICES,
-                    'order_id' => $CREATE_ORDER,
+                // insert new order
+                $CREATE_ORDER = DB::table('user_order')->insertGetId([
                     'user_id' => $CREATE_BUYER,
-                    'item_name' => $product_item_name[$item],
-                    'amount' => $product_item_price[$item],
-                    'qty' => $product_item_qty[$item],
+                    'seller_id' => ProdukHelper::get_product_owner($product_item_id[0]),
+                    'sub_total' => $request->total_tagihan,
+                    'tax_rate' => $request->total_tax_rate,
+                    'tax' => $request->total_tax,
+                    'total' => $request->total_tagihan,
+                    'status_id' => '1003', // pending
                 ]);
 
-            }
+                $product_item_name = $request->product_item_name;
 
-            DB::commit();
 
-            return redirect('/order/payment'.'/'.Crypt::encrypt($CREATE_INVOICES));
+                $product_item_group = $request->input('product_item_group');
+                $product_item_price = $request->input('product_item_price');
+                $product_item_qty = $request->input('product_item_qty');
+
+                $sub_total = 0;
+                $total = 0;
+
+                // insert new order item
+                for ($item = 0; $item < count($product_item_name); $item++) {
+
+                    $CREATE_ORDER_ITEM = DB::table('user_order_item')->insert([
+                        'order_id' => $CREATE_ORDER,
+                        'product_id' => $product_item_id[$item],
+                        'product_group_name' => $product_item_group[$item],
+                        'product_plan_name' => $product_item_name[$item],
+                        'unit_price' => $product_item_price[$item],
+                        'qty' => $product_item_qty[$item],
+                        'promo' => $request->order_promo,
+                        'billing_cycle' => $request->billing_cycle,
+                    ]);
+
+                    $sub_total_item = $product_item_price[$item] * $product_item_qty[$item];
+                    $sub_total = $sub_total + $sub_total_item;
+                    $total = $total + $sub_total_item;
+                            
+                }
+
+                // insert new invoices      
+                $CREATE_INVOICES = DB::table('user_invoices')->insertGetId([
+                    'user_id' => $CREATE_BUYER,
+                    'invoices_type' => 'register',
+                    'invoices_date' => Carbon::now(),
+                    'invoices_duedate' => Carbon::now()->addDays(7),
+                    'tax' => $request->total_tax_rate,
+                    'sub_total' => $sub_total,
+                    'total' => $total,
+                    'is_publish' => 1,
+                    'status_id' => '1005', // unpaid
+                ]);
+
+                // insert new invoices item
+                for ($item = 0; $item < count($product_item_name); $item++) {
+
+                    $CREATE_INVOICES_ITEM = DB::table('user_invoices_item')->insert([
+                        'invoices_id' => $CREATE_INVOICES,
+                        'order_id' => $CREATE_ORDER,
+                        'user_id' => $CREATE_BUYER,
+                        'item_name' => $product_item_name[$item],
+                        'amount' => $product_item_price[$item],
+                        'qty' => $product_item_qty[$item],
+                    ]);
+
+                }
+
+                DB::commit();
+
+                return redirect('/order/payment'.'/'.Crypt::encrypt($CREATE_INVOICES));
+
+            
 
         } catch (\Throwable $th) {
             
@@ -198,13 +264,17 @@ class OrderController extends Controller
         $invoices_id = Crypt::decrypt($request->invoices_id);
         
         $site_id = SiteHelper::Get_siteid_byinvoices($invoices_id);
-        $payment_method = User_invoices_payment::where('invoices_id',$invoices_id)->count();
+        $payment_method = User_invoices_payment::where('user_invoices_payment.invoices_id',$invoices_id)
+        ->join('site_payment_method','site_payment_method.id','=','user_invoices_payment.payment_method')
+        ->get();
+
         $invoices = User_invoices::where('id', $invoices_id)->first();
         $invoices_item = User_invoices_item::where('invoices_id', $invoices->id)->get();
 
         $payment_options = User_payment::where('site_id',$site_id)
             ->join('site_payment_method','site_payment_method.id','=','User_payment.payment_id')
-            ->select('user_payment.id','site_payment_method.payment_method_name','site_payment_method.payment_method_logo')
+            ->where('site_payment_method.is_active', 1)
+            ->select('user_payment.id','site_payment_method.id as method_id','site_payment_method.payment_method_group','site_payment_method.payment_method_name','site_payment_method.payment_method_logo')
             ->get();
         
         $user_bank = User_bank::where('user_bank.site_id', $site_id)
@@ -212,8 +282,9 @@ class OrderController extends Controller
         ->select('user_bank.id','user_bank.account_name','user_bank.account_number','site_banks.bank_logo','user_bank.notes')
         ->get();
 
-        if($payment_method == 0) {
-
+        // belum pilih payment method
+        if($payment_method->count() == 0) {
+            
             return view('pages/frond/payment_select', [
                     'invoices' => $invoices,
                     'invoices_item' => $invoices_item,
@@ -222,13 +293,36 @@ class OrderController extends Controller
             ]);
 
         } else {
+            
+            if($payment_method[0]->payment_method_group == "Manual Transfer") { 
 
-            return view('pages/frond/payment_info', [
+                return view('pages/frond/payment/payment-page-banktransfer', [
                     'invoices' => $invoices,
                     'invoices_item' => $invoices_item,
                     'user_bank' => $user_bank,
                     'site_id' => $site_id
-            ]);
+                ]);
+
+            }
+
+            if($payment_method[0]->payment_method_group == "Virtual Account") { 
+                
+                if($payment_method[0]->payment_expired < Carbon::now()->format('Y-m-d H:i:s')) {
+                    
+                    $DUITKU = DuitkuHelper::Refresh($invoices_id, $payment_method[0]->payment_method);    
+
+                }
+                
+                return view('pages/frond/payment/payment-page-va', [
+                    'invoices' => $invoices,
+                    'invoices_item' => $invoices_item,
+                    'user_bank' => $user_bank,
+                    'user_payment' => $payment_method,
+                    'site_id' => $site_id
+                ]);
+
+
+            }
 
         } 
 
@@ -242,18 +336,33 @@ class OrderController extends Controller
         $payment_method = User_invoices_payment::where('invoices_id',$invoices_id)->count();
 
         if($payment_method == 0) {
-
-            $CREATE_PAYMENT = User_invoices_payment::create([
-                'invoices_id' => $invoices_id,
-                'payment_method' => $request->payment_method
-            ]);
             
+            $site_payment = Site_payment_method::where('id', $request->payment_method)->first();
 
+            if($site_payment->payment_method_group == "Manual Transfer" || $site_payment->payment_method_group == "Bayar Ditempat") { 
+
+                $CREATE_PAYMENT = User_invoices_payment::create([
+                    'invoices_id' => $invoices_id,
+                    'payment_method' => $request->payment_method
+                ]);
+
+            }
+
+            if($site_payment->payment_method_group == "Virtual Account") { 
+
+                $PG = DuitkuHelper::Create($invoices_id, $request->payment_method);
+
+                if($PG['response']['success'] = false) {
+
+                    return redirect('/order/payment'.'/'.Crypt::encrypt($invoices_id))->with('failed', 'Sementara pilih metode pembayaran yang lain');
+
+                }
+
+            }
+            
         } else {
 
-            $post = User_invoices_payment::where('invoices_id',$invoices_id)->update([
-                'payment_method' => $request->payment_method,
-            ]);
+            $DUITKU = DuitkuHelper::Refresh($invoices_id, $request->payment_method);  
 
         } 
 

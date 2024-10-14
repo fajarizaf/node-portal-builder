@@ -37,23 +37,20 @@
 
 <div class="row g-0 flex-fill">
 
-    <div class="col-12 col-lg-6 col-xl-7 d-none d-lg-block" style="background:#fff">
+    <div class="col-12 col-lg-6 col-xl-6 d-none d-lg-block" style="background:#fff">
         <div class="container px-5 pt-4">
             <div class="row g-0 flex-fill">
-                <div class="col-12 col-lg-5"></div>
-                <div class="col-12 col-lg-7">
+                <div class="col-12 col-lg-4"></div>
+                <div class="col-12 col-lg-8 p-3">
                     <div class="row g-0 flex-fill">
-                        <div class="col-12 col-lg-4"><img src="{{ URL::asset('/assets/static/logo.png') }}" /></div>
-                        <div class="col-12 col-lg-8">
+                        <div class="col-12 col-lg-12">
                             <ul class="steps steps-green my-4">
-                                <li class="step-item">Isi Data Diri</li>
-                                <li class="step-item active">Instalasi web</li>
+                                <li class="step-item">Domain</li>
+                                <li class="step-item active">Instalasi Web</li>
                                 <li class="step-item">Selesai</li>
                             </ul>
                         </div>
                     </div>
-                    <br />
-                    <br />
                     <br />
                     <br />
                     <p class="fs-1"><b class="com1">Tunggu ya :) </b><span class="com2">website anda sedang dibangun</span></p>
@@ -88,9 +85,9 @@
                     <br />
                     <div class="form-label">Produk Subscription :</div>
                     <div class="card" style="background:#f4f7fc">
-                        <div class="ribbon bg-red">Uji coba gratis</div>
+                        <div class="ribbon bg-blue">Uji coba gratis</div>
                         <div class="card-body">
-                            <h3 class="card-title">Node Starter <span class="badge bg-green text-green-fg">Uji coba gratis</span></h3>
+                            <h3 class="card-title">Node Starter</h3>
                             <p class="text-secondary">Cocok buat yang baru ingin coba2 dan mulai punya website untuk bisnis anda</p>
                             <p class="text-secondary">site: coba.nodebuilder.id</p>
                         </div>
@@ -100,11 +97,11 @@
         </div>
     </div>
 
-    <div class="col-12 col-lg-6 col-xl-5 border-primary d-flex flex-column" style="background:#f4f7fc">
-        <div class="container px-5 pt-7" style="margin-top:70px">
+    <div class="col-12 col-lg-6 col-xl-6 border-primary d-flex flex-column" style="background:#f4f7fc">
+        <div class="container px-8 pt-7" style="margin-top:70px">
 
             <div class="row g-0 flex-fill">
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-12">
 
                     <div class="card-body">
                         <h2 class="h2 text-left mb-3">
@@ -112,30 +109,29 @@
                         </h2>
                         <ul class="steps steps-vertical">
                             <li class="step-item step-item-1 active">
-                                <div class="h4 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">1</span> - Creating Subdomain <img width="20px" class="load loading-1" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
+                                <div class="h3 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">1</span> - Creating Subdomain <img width="20px" class="load loading-1" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
                                 <div class="text-secondary" style="padding-left:43px;padding-top:15px;padding-bottom:10px;">Proses penyiapan domain ke server, biar kamu punya link websitenya</div>
                             </li>
                             <li class="step-item step-item-2 ">
-                                <div class="h4 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">2</span> - Setup Database <img width="20px" class="load loading-2" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
+                                <div class="h3 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">2</span> - Setup Database <img width="20px" class="load loading-2" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
                                 <div class="text-secondary" style="padding-left:43px;padding-top:15px;padding-bottom:10px;">Setup dan konfigurasi database</div>
                             </li>
                             <li class="step-item step-item-3">
-                                <div class="h4 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">3</span> - Generating SSL <img width="20px" class="load loading-3" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
+                                <div class="h3 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">3</span> - Generating SSL <img width="20px" class="load loading-3" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
                                 <div class="text-secondary" style="padding-left:43px;padding-top:15px;padding-bottom:10px;">Sedang instalasi sertifikat web. biar websitemu lebih aman</div>
                             </li>
                             <li class="step-item step-item-4">
-                                <div class="h4 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">4</span> - Installation Editor <img width="20px" class="load loading-4" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
+                                <div class="h3 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">4</span> - Installation Editor <img width="20px" class="load loading-4" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
                                 <div class="text-secondary" style="padding-left:43px;padding-top:15px;padding-bottom:10px;">Instalasi tools buat desain websitemu nanti</div>
                             </li>
                             <li class="step-item step-item-5">
-                                <div class="h4 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">5</span> - Setup Editor <img width="20px" class="load loading-5" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
+                                <div class="h3 m-0"><span class="badge bg-yellow text-yellow-fg ms-2">5</span> - Setup Editor <img width="20px" class="load loading-5" src="{{ URL::asset('/assets/image/loading-2.gif') }}" /></div>
                                 <div class="text-secondary" style="padding-left:43px;padding-top:15px;padding-bottom:10px;">Buat akun kelola websitemu nanti</div>
                             </li>
                         </ul>
                     </div>
 
                 </div>
-                <div class="col-12 col-lg-6"></div>
             </div>
 
         </div>

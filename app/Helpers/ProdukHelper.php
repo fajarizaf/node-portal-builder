@@ -6,6 +6,7 @@ use App\Models\Product_group;
 use App\Models\Product_photo;
 use App\Models\Product_plan;
 use App\Models\Product_asigned;
+use App\Models\Product_plan_fitur;
 use App\Models\Product_price;
 use App\Models\Site;
 use Session;
@@ -42,7 +43,7 @@ class ProdukHelper
 
         // create dummy product group
             $CREATE_PRODUCT_GROUP = Product_group::create([
-                'user_id' => Session::get('user_id'),
+                'user_id' => auth()->user()->id,
                 'product_group_name' => 'Ebook Marketing',
                 'product_group_link' => 'dsafaf',
             ]);
@@ -53,7 +54,7 @@ class ProdukHelper
 
             // create dummy product plan
             $CREATE_PRODUCT_PLAN_1 = Product_plan::create([
-                'user_id' => Session::get('user_id'),
+                'user_id' => auth()->user()->id,
                 'product_type' => 'produk digital',
                 'product_group_id' => $CREATE_PRODUCT_GROUP->id,
                 'product_plan_name' => 'Digital Marketing Fundamental',
@@ -84,7 +85,7 @@ class ProdukHelper
             ]);
 
             $CREATE_PRODUCT_PLAN_2 = Product_plan::create([
-                'user_id' => Session::get('user_id'),
+                'user_id' => auth()->user()->id,
                 'product_type' => 'produk digital',
                 'product_group_id' => $CREATE_PRODUCT_GROUP->id,
                 'product_plan_name' => 'Digital Marketing Concept',
@@ -116,7 +117,7 @@ class ProdukHelper
 
 
             $CREATE_PRODUCT_PLAN_3 = Product_plan::create([
-                'user_id' => Session::get('user_id'),
+                'user_id' => auth()->user()->id,
                 'product_type' => 'produk digital',
                 'product_group_id' => $CREATE_PRODUCT_GROUP->id,
                 'product_plan_name' => 'Viral Digital Marketing',
@@ -147,7 +148,7 @@ class ProdukHelper
             ]);
 
             $CREATE_PRODUCT_PLAN_4 = Product_plan::create([
-                'user_id' => Session::get('user_id'),
+                'user_id' => auth()->user()->id,
                 'product_type' => 'produk digital',
                 'product_group_id' => $CREATE_PRODUCT_GROUP->id,
                 'product_plan_name' => 'Digital Marketing di era 6.0',
@@ -202,6 +203,20 @@ class ProdukHelper
             ]);
 
             return $site_id;
+
+    }
+
+    public static function Product_status_usage($user_id) {
+
+        $quota = Product_plan_fitur::where('key','produk')->where('product_id',Session::get('user_package'))->first()->value;
+
+        $count_product = Product_plan::where('user_id',$user_id)->count();
+        $percentage = ($count_product / $quota ) * 100;
+        
+        return [
+            'count_product' => $count_product,
+            'percentage' => round($percentage),
+        ];
 
     }
 

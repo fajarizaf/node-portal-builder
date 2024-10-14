@@ -145,20 +145,20 @@ class StoreController extends Controller
             
             $payments = $request->payment;
 
-            $exist_payment = User_payment::where('site_id', $site_active)->count();
-
+            $exist_payment = User_payment::where('site_id', $request->site)->count();
+            
             if($exist_payment != 0) {
-                User_payment::where('site_id', $site_active)->delete();
+                User_payment::where('site_id', $request->site)->delete();
             }
-
+            
             foreach($payments as $pay){
                 User_payment::create([
                     'payment_id' => $pay,
-                    "site_id" => $site_active,
+                    "site_id" => $request->site,
                 ]);
             }
 
-            return redirect('/store/payment')->with('success', 'Perubahan berhasil dilakukan');
+            return redirect('/store/payment/'.urlencode(base64_encode($request->site)))->with('success', 'Perubahan berhasil dilakukan');
 
         }
 
@@ -172,7 +172,7 @@ class StoreController extends Controller
                 'notes' => $request->notes
             ]);
 
-            return redirect('/store/payment')->with('success', 'Tambah bank account berhasil dilakukan');
+            return redirect('/store/payment/'.urlencode(base64_encode($request->site_id)))->with('success', 'Tambah bank account berhasil dilakukan');
 
         }
 

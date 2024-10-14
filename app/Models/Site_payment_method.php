@@ -13,7 +13,10 @@ class Site_payment_method extends Model
 
     protected $fillable = [
         'payment_method_name',
+        'payment_method_group',
+        'gateway',
         'channel_id',
+        'fee',
         'payment_method_logo',
         'is_active'
     ];

@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('is_active')->default(0);
             $table->string('gauth_id')->nullable();
             $table->string('gauth_type')->nullable();
+            $table->string('photo')->nullable();
             $table->rememberToken();
             $table->timestamps();
 

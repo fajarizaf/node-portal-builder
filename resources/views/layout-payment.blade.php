@@ -45,6 +45,12 @@
             overflow: hidden;
         }
 
+        @media (max-width: 480px) {
+            .header-order {
+                height: auto;
+            }
+        }
+
     </style>
 
     @php
@@ -68,7 +74,7 @@
 
             <div class="row g-0 flex-fill">
 
-                <div class="col-12 col-lg-6 col-xl-7 d-lg-block" style="background:#fff">
+                <div class="col-12 col-lg-6 col-xl-7 d-lg-block header-order" style="background:#fff">
                     <div class="container px-5 pt-4">
                         <div class="row g-0 flex-fill">
                             <div class="col-12 col-lg-5"></div>
@@ -100,9 +106,6 @@
                                     </div>
                                 </div>
                                 <br />
-                                <br />
-                                <br />
-
                                 @yield('container')
 
                             </div>
@@ -119,8 +122,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="text" style="display:none" name="invoices_id" value="{{$invoices->id}}" />
 
-
-                        <div class="container px-5 pt-7" style="margin-top:0px">
+                        <div class="container px-5 pt-4" style="margin-top:0px">
 
                             <div class="row g-0 flex-fill">
 
@@ -134,15 +136,20 @@
 
                                             @forelse($payment_options as $options)
                                             <label class="form-selectgroup-item flex-fill" style="margin-bottom:10px;">
-                                                <input type="radio" name="payment_method" value="{{$options->id}}" class="form-selectgroup-input" checked="">
+                                                <input type="radio" name="payment_method" value="{{$options->method_id}}" class="form-selectgroup-input" checked="">
 
                                                 <div class="form-selectgroup-label d-flex align-items-center p-2">
-                                                    <div class="me-3">
-                                                        <span class="form-selectgroup-check"></span>
-                                                    </div>
-                                                    <div>
-                                                        <img src="{{ URL::asset('/assets/image/'.$options->payment_method_logo) }}" style="height:40px;" />&nbsp;
-                                                        <b>{{$options->payment_method_name}}</b>
+                                                    <div class="row" style="width:100%;">
+                                                        <div class="col-1">
+                                                            <span class="form-selectgroup-check"></span>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <img src="{{ URL::asset('/assets/image/channel/'.$options->payment_method_logo) }}" style="width:40px;height:40px;" />&nbsp;
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <small>{{$options->payment_method_group}}</small><br />
+                                                            <b>{{$options->payment_method_name}}</b>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </label>
@@ -177,7 +184,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card" style="background:none;border:none;width:100%;margin:0px auto;z-index:1">
+                                    <div class="card" style="background:none;border:none;width:85%;margin:0px auto;z-index:1">
                                         <div class="row row-0">
                                             <div class="col-3">
                                                 <!-- Photo -->
@@ -187,8 +194,7 @@
                                             <div class="col">
                                                 <div class="card-body">
                                                     <h3 class="card-title">Secure Payment</h3>
-                                                    <p class="text-secondary" style="margin-top:-10px">RSA Security Encryption<br />secure all of your payment</p>
-
+                                                    <p class="text-secondary" style="margin-top:-10px;font-size:12px">RSA Security Encryption<br />secure all of your payment</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -215,14 +221,9 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-
-
         })
 
     </script>
-
-
-
 
     <!-- Libs JS -->
     <script src="{{ URL::asset('assets/dist/libs/nouislider/dist/nouislider.min.js?1692870487') }}" defer></script>

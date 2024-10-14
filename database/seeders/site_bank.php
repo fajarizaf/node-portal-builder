@@ -16,22 +16,22 @@ class site_bank extends Seeder
     {
         DB::table('site_banks')->insert([
             'bank_name' => "Bank BCA",
-            'bank_logo' => 'bca.png',
+            'bank_logo' => 'bca.gif',
         ]);
 
         DB::table('site_banks')->insert([
             'bank_name' => "Bank BNI",
-            'bank_logo' => 'bni.png',
+            'bank_logo' => 'bni.gif',
         ]);
 
         DB::table('site_banks')->insert([
             'bank_name' => "Bank BRI",
-            'bank_logo' => 'bri.png',
+            'bank_logo' => 'bri.gif',
         ]);
 
         DB::table('site_banks')->insert([
             'bank_name' => "Bank Mandiri",
-            'bank_logo' => 'mandiri.png',
+            'bank_logo' => 'mandiri.gif',
         ]);
     }
 }

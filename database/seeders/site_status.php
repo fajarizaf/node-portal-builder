@@ -44,5 +44,10 @@ class site_status extends Seeder
             'status_name' => 'complete',
             'status_code' => '1006',
         ]);
+
+        DB::table('site_status')->insert([
+            'status_name' => 'proccess',
+            'status_code' => '1007',
+        ]);
     }
 }

@@ -15,16 +15,17 @@ class CredentialController extends Controller
 
     public function index(Request $request)
      {
-        if(auth()->user()->id) {
-            return redirect('/manage');
-        } else {
-            return redirect('/login');
-        }
+        return redirect('/manage');
      }
 
     public function login(Request $request)
     {
         return view('pages/manage/login');
+    }
+
+    public function register(Request $request)
+    {
+        return view('pages/manage/register');
     }
 
     public function auth_login(Request $request)
@@ -49,7 +50,7 @@ class CredentialController extends Controller
                 $request->session()->put('role_id', $role_id);
                 $request->session()->put('package_id', $package_id);
 
-                return redirect()->intended('/manage/ssite');
+                return redirect()->intended('/manage');
 
              } else {
 

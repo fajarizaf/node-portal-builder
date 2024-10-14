@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Royryando\Duitku\DuitkuServiceProvider::class
 
     ],
 
@@ -234,7 +235,10 @@ return [
         'LayoutHelper' => App\Helpers\LayoutHelper::class,
         'ProdukHelper' => App\Helpers\ProdukHelper::class,
         'StoreHelper' => App\Helpers\StoreHelper::class,
-
+        'PackageHelper' => App\Helpers\PackageHelper::class,
+        'OrderHelper' => App\Helpers\OrderHelper::class,
+        'BillingHelper' => App\Helpers\BillingHelper::class,
+        'DuitkuHelper' => App\Helpers\DuitkuHelper::class,
     ],
 
 ];

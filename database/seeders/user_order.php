@@ -15,7 +15,6 @@ class user_order extends Seeder
     public function run()
     {
         DB::table('user_order')->insert([
-            'order_number' => 'ORDER-000003456',
             'user_id' => '2',
             'seller_id' => '2',
             'sub_total' => '150000',

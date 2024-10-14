@@ -25,7 +25,8 @@ class Users extends Authenticatable
         'telp',
         'is_active',
         'gauth_id',
-        'gauth_type'
+        'gauth_type',
+        'photo'
     ];
 
     /**

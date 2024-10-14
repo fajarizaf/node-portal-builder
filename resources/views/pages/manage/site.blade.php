@@ -25,7 +25,8 @@
 
 @if(session()->has('failed'))
 <div class="alert alert-important alert-failed alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
-    {{ session('faild') }}
+    {{ session('failed') }}
+
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
@@ -88,7 +89,8 @@
                                 <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
                                 <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
                             </svg>
-                            Funnel Anda</a>
+                            Funnel Anda
+                        </a>
                     </li>
                     <li class="nav-item tab-link" role="presentation">
                         <a href="#tabs-profile-3" class="nav-link " data-bs-toggle="tab" aria-selected="true" role="tab">
@@ -98,7 +100,8 @@
                                 <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
                                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                             </svg>
-                            Templates</a>
+                            Templates
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -114,7 +117,8 @@
                         <div class="card" style="border-radius:0px;">
                             <div class="card-header" style="background:#2f1893;color:#fff">
                                 <h3 class="card-title">ID Funnel : <span class="badge bg-indigo text-indigo-fg">{{$site->id}}</span></h3>
-                                <a style="font-size:16px;margin-left:10px;color:#fff" href="https://{{$site->domain}}" target="_blank">{{$site->domain}} <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-external-link">
+                                <a style="font-size:16px;margin-left:10px;color:#fff" href="https://{{$site->domain_name}}" target="_blank">{{$site->domain_name}} <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-external-link">
+
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6"></path>
                                         <path d="M11 13l9 -9"></path>
@@ -207,7 +211,7 @@
                                                 <div class="datagrid-content">
                                                     <div class="d-flex align-items-center fw-bold">
                                                         @php
-                                                        $status = SiteHelper::Last_status_build($site->domain)
+                                                        $status = SiteHelper::Last_status_build($site->domain_name)
                                                         @endphp
                                                         @if($status->step_status == 1)
                                                         <span class="badge bg-azure-lt">Step {{$status->step}}</span>&nbsp; Completed
@@ -299,7 +303,7 @@
                                     type: 'GET'
                                     , url: "{{ route('run_snapshoot') }}"
                                     , data: {
-                                        domain_name: '{{$site->domain}}'
+                                        domain_name: '{{$site->domain_name}}'
                                     , }
                                     , success: function(res) {
                                         $('.image_loader_{{$site->id}}').fadeOut('slow')

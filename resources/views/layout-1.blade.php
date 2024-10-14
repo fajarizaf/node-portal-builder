@@ -42,7 +42,9 @@
     <div class="page">
 
         @auth
+        @if(Session::get('user_package') != '')
         @include('component.navbar')
+        @endif
         @else
 
         @endauth

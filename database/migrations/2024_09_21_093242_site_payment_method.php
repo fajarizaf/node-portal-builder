@@ -16,7 +16,10 @@ class SitePaymentMethod extends Migration
         Schema::create('site_payment_method', function (Blueprint $table) {
             $table->id();
             $table->string('payment_method_name');
+            $table->string('payment_method_group');
+            $table->string('gateway');
             $table->string('channel_id')->nullable();
+            $table->integer('fee');
             $table->string('payment_method_logo');
             $table->integer('is_active');
         });
