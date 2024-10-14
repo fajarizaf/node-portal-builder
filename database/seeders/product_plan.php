@@ -36,7 +36,7 @@ class product_plan extends Seeder
         ]);
 
         DB::table('product_plan')->insert([
-            'user_id' => 3,
+            'user_id' => 2,
             'product_type' => 'produk digital',
             'product_group_id' => 1,
             'product_plan_name' => 'Node Pro Edition',
