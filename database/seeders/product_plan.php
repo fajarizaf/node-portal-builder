@@ -41,7 +41,7 @@ class product_plan extends Seeder
             'product_group_id' => 1,
             'product_plan_name' => 'Node Pro Edition',
             'product_plan_desc' => 'Cocok untuk para pelaku usaha yang sudah serius di dunia online',
-            'product_plan_link' => 'Mg%3D%3D',
+            'product_plan_link' => 'Mg%3D%3D1',
             'is_hidden' => 0,
         ]);
 
