@@ -17,9 +17,9 @@ class SitePaymentMethod extends Migration
             $table->id();
             $table->string('payment_method_name');
             $table->string('payment_method_group');
-            $table->string('gateway');
+            $table->string('gateway')->nullable();
             $table->string('channel_id')->nullable();
-            $table->integer('fee');
+            $table->integer('fee')->nullable();
             $table->string('payment_method_logo');
             $table->integer('is_active');
         });
