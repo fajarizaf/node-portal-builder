@@ -20,7 +20,6 @@ use Illuminate\Http\Request;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Str;
 
-use App\Http\Controllers\Controller;
 use App\Models\Product_plan;
 use App\Models\Product_group;
 use App\Models\Product_price;
