@@ -272,7 +272,7 @@ class OrderController extends Controller
         $invoices_item = User_invoices_item::where('invoices_id', $invoices->id)->get();
 
         $payment_options = User_payment::where('site_id',$site_id)
-            ->join('site_payment_method','site_payment_method.id','=','User_payment.payment_id')
+            ->join('site_payment_method','site_payment_method.id','=','user_payment.payment_id')
             ->where('site_payment_method.is_active', 1)
             ->select('user_payment.id','site_payment_method.id as method_id','site_payment_method.payment_method_group','site_payment_method.payment_method_name','site_payment_method.payment_method_logo')
             ->get();
