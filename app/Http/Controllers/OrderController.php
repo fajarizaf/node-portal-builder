@@ -267,7 +267,7 @@ class OrderController extends Controller
         $payment_method = User_invoices_payment::where('user_invoices_payment.invoices_id',$invoices_id)
         ->join('site_payment_method','site_payment_method.id','=','user_invoices_payment.payment_method')
         ->get();
-
+        dd($invoices_id);
         $invoices = User_invoices::where('id', $invoices_id)->first();
         $invoices_item = User_invoices_item::where('invoices_id', $invoices->id)->get();
 
