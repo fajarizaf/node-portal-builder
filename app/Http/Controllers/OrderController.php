@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Controllers\Controller;
 use App\Helpers\DuitkuHelper;
 use App\Models\Product_asigned;
 use App\Models\Product_photo;
@@ -13,12 +15,7 @@ use App\Models\User_invoices_item;
 use App\Models\User_invoices_payment;
 use App\Models\User_package;
 use App\Models\User_payment;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
-use Illuminate\Support\Str;
+
 
 use App\Models\Product_plan;
 use App\Models\Product_group;
@@ -30,10 +27,15 @@ use App\Models\Build_status;
 use App\Models\User_subscriptions;
 use App\Models\Site;
 use App\Models\Users;
-use OrderHelper;
 use ProdukHelper;
 use Royryando\Duitku\Facades\Duitku;
 use SiteHelper;
+
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
