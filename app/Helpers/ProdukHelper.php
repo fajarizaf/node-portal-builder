@@ -31,9 +31,9 @@ class ProdukHelper
 
         $photo = Product_photo::where('product_id',$product_id)->where('photo_index',1)->first();
         if(!empty($photo)) {
-            return '../storage/uploads/'.$photo->photo;
+            return $photo->photo;
         } else {
-            return '../storage/product.png';
+            return 'product.png';
         }
 
     }

@@ -139,7 +139,8 @@
                 <div class="col-auto">
                     <div class="card-body">
                         <div class="img-result rounded" style="overflow:hidden;">
-                            <img style="width:120px" src='{{ProdukHelper::get_url_photo($row->id)}}' />
+                            <img style="width:120px" src='{{asset('storage/uploads/'.ProdukHelper::get_url_photo($row->id))}}' />
+
                         </div>
                     </div>
                 </div>
