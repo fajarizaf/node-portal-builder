@@ -10,7 +10,7 @@ use App\Models\Product_photo;
 use App\Models\Site_banks;
 use App\Models\Site_payment_method;
 use App\Models\User_bank;
-use app\Models\User_invoices;
+use App\Models\User_invoices;
 use App\Models\User_invoices_item;
 use App\Models\User_invoices_payment;
 use App\Models\User_package;
