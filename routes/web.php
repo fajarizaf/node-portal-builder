@@ -47,8 +47,7 @@ Route::get('/duitku/get_payment_method', [OrderController::class, 'duitku_paymen
 Route::get('/duitku/create_invoices', [OrderController::class, 'duitku_create_invoices']);
 
 // callback payment gateway
-Route::post('callback/payment', [CallbackController::class, 'paymentCallback']);
-
+Route::post('payment/callback', [CallbackController::class, 'paymentCallback']);
 
 
 Route::group(['middleware' => 'auth'], function () {

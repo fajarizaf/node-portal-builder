@@ -17,7 +17,7 @@ class UserInvoicesPayment extends Migration
             $table->id();
             $table->unsignedBigInteger('invoices_id');
             $table->integer('payment_method');
-            $table->integer('payment_expired')->nullable();
+            $table->timestamp('payment_expired')->nullable();
             $table->string('payment_references')->nullable();
             $table->string('payment_virtualaccount')->nullable();
             $table->integer('payment_amount')->nullable();

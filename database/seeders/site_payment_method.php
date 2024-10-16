@@ -17,7 +17,7 @@ class site_payment_method extends Seeder
         DB::table('site_payment_method')->insert([
             'payment_method_name' => 'Bank Transfer',
             'payment_method_group' => 'Manual Transfer',
-            'payment_method_logo' => 'bank_transfer.png',
+            'payment_method_logo' => 'transfer.png',
             'is_active' => 1,
         ]);
 
