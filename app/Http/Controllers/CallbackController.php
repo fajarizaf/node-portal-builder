@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User_invoices;
+use Carbon\Carbon;
 use DB;
 use Royryando\Duitku\Http\Controllers\DuitkuBaseController;
 
@@ -31,6 +32,8 @@ class CallbackController extends DuitkuBaseController
                 'txnid' => $reference,
                 'amount_in' => $amount,
                 'payment_status' => 'success',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
 
             DB::commit();

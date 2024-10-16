@@ -270,7 +270,10 @@
 
         @include('component.modal.add-rekening-account')
         @include('component.modal.edit-rekening-account')
+
+        @if($count_rekening != 0)
         @include('component.modal.request-witdraw')
+        @endif
 
         <script type="text/javascript">
             $(document).ready(function() {
