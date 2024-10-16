@@ -25,12 +25,12 @@ class CallbackController extends DuitkuBaseController
             DB::table('user_invoices')->where('id', $orderId)->update(['status_id' => '1004']);
 
             DB::table('user_invoices_transaction')->insertGetId([
-                    'invoices_id' => $orderId,
-                    'gateway' => 'DUITKU',
-                    'channel' => $paymentCode,
-                    'txnid' => $reference,
-                    'amount_in' => $amount,
-                    'payment_status' => 'success',
+                'invoices_id' => $orderId,
+                'gateway' => 'DUITKU',
+                'channel' => $paymentCode,
+                'txnid' => $reference,
+                'amount_in' => $amount,
+                'payment_status' => 'success',
             ]);
 
             DB::commit();
@@ -38,8 +38,6 @@ class CallbackController extends DuitkuBaseController
         } catch (\Throwable $th) {
             //throw $th;
         }
-      
-
 
     }
 
