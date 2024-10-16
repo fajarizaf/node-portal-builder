@@ -18,27 +18,9 @@ class CallbackController extends DuitkuBaseController
         $invoice = User_invoices::where('id', $orderId)->first();
         if (!$invoice) return;
 
-        try {
-
-            DB::beginTransaction();
-
-            DB::table('user_invoices')->where('id', $orderId)->update(['status_id' => '1004']);
-
-            DB::table('user_invoices_transaction')->insertGetId([
-                    'invoices_id' => $orderId,
-                    'gateway' => 'DUITKU',
-                    'channel' => $paymentCode,
-                    'txnid' => $reference,
-                    'amount_in' => $amount,
-                    'payment_status' => 'success',
-            ]);
-
-            DB::commit();
-
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-      
+        DB::beginTransaction();
+        DB::table('user_invoices')->where('id', $orderId)->update(['status_id' => '1004']);
+        DB::commit();
 
 
     }
