@@ -48,7 +48,8 @@
             "app/Helpers/ProdukHelper.php",
             "app/Helpers/OrderHelper.php",
             "app/Helpers/BillingHelper.php",
-            "app/Helpers/DuitkuHelper.php"
+            "app/Helpers/DuitkuHelper.php",
+            "app/Helpers/CustomerHelper.php"
         ]
     },
     "scripts": {

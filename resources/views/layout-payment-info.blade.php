@@ -53,7 +53,6 @@
     $display = StoreHelper::Display_product($site_id);
     @endphp
 
-
 </head>
 
 <body>
@@ -128,7 +127,6 @@
                                             <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
                                                 <div class="">
 
-
                                                     <table class="table table-transparent table-responsive">
                                                         <thead>
                                                             <tr>
@@ -165,6 +163,7 @@
                                                             <tr>
                                                                 <td style="border:none">Biaya Transaksi</td>
                                                                 <td style="border:none">-</td>
+
                                                             </tr>
                                                             <tr>
                                                                 <td style="border:none;border-top:1px solid #ccc;"><b>Total harus dibayar</b></td>

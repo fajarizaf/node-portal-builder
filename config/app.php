@@ -239,6 +239,7 @@ return [
         'OrderHelper' => App\Helpers\OrderHelper::class,
         'BillingHelper' => App\Helpers\BillingHelper::class,
         'DuitkuHelper' => App\Helpers\DuitkuHelper::class,
+        'CustomerHelper' => App\Helpers\CustomerHelper::class,
     ],
 
 ];

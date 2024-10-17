@@ -65,5 +65,20 @@ class OrderHelper
 
     }
 
+
+    public static function transaction_exclude_fee($invoices_id) {
+
+        $user_id = User_invoices::where('id',$invoices_id)->first()->user_id;
+        $customer = Users::where('id', $user_id)->first();
+        
+        return [
+            'customer' => $customer,
+        ];
+
+    }
+
+
+
+
 }
 

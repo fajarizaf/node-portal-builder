@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OauthController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductController;
@@ -41,6 +42,7 @@ Route::get('/order/payment/{invoices_id}', [OrderController::class, 'payment_sel
 Route::post('/order/payment', [OrderController::class, 'payment_proccess']);
 Route::post('/order-proccess', [OrderController::class, 'order_proccess']);
 Route::post('/order/switch', [OrderController::class, 'order_switch_product']);
+Route::get('/getpayfee', [OrderController::class, 'get_payment_fee'])->name('get_payment_fee');
 
 // tes pg
 Route::get('/duitku/get_payment_method', [OrderController::class, 'duitku_payment_method']);
@@ -88,6 +90,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/store/uploadlogo', [StoreController::class, 'persona_logo'])->name('uploadlogo');
     Route::post('/store/setcolor', [StoreController::class, 'persona_color'])->name('set_color');
     Route::post('/store/setdisplay', [StoreController::class, 'persona_display'])->name('set_display');
+    Route::post('/store/setpaymentfee', [StoreController::class, 'persona_payment_fee'])->name('set_payment_fee');
 
     // product management
     Route::get('/manage/product',[ProductController::class, 'index']);
@@ -97,6 +100,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     //order
     Route::get('/manage/order',[OrderController::class, 'list']);
+    Route::get('/manage/order/paid',[OrderController::class, 'list_paid']);
+    Route::get('/manage/order/proccess',[OrderController::class, 'list_proccess']);
+    Route::get('/manage/order/complete',[OrderController::class, 'list_complete']);
+
+    //transaction
+    Route::get('/manage/transaksi',[TransactionController::class, 'list']);
+
 
     // my billing
     Route::get('/manage/tagihan',[BillingController::class, 'tagihan']);

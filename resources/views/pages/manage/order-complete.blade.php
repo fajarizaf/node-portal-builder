@@ -23,6 +23,7 @@
 
     @media only screen and (max-width: 1000px) {
 
+
         /* Force table to not be like tables anymore */
         #no-more-tables table,
         #no-more-tables thead,
@@ -180,7 +181,7 @@
                 </h2>
             </div>
             <div class="col-lg-2 p-2">
-                <form method="GET" action="">
+                <form method="GET" action="complete">
                     <select name="site" class="form-select select-site">
                         @forelse($sites as $ste)
                         <option value="{{$ste->id}}" @if($site_active==$ste->id) selected @endif>{{$ste->domain_name}}</option>
@@ -214,7 +215,6 @@
                         <th>Total</th>
                         <th>Payment</th>
                         <th>Action</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -230,7 +230,6 @@
                             <small>Jam : {{\Carbon\Carbon::parse($row->created_at)->format('H:i:s')}}</small>
                         </td>
                         <td data-title="Produk Dipesan">
-
                             <a href="invoice.html" class="text-reset" tabindex="-1">
                                 <b><br />{{$row->product_plan_name}}</b>
                                 <a href="{{url('/manage/product/detail/'.urlencode(base64_encode($row->product_id)))}}">
@@ -249,7 +248,8 @@
                             <span class="badge bg-purple text-purple-fg">{{$row->product_type}}</span>
                         </td>
                         <td data-title="Status">
-                            <span class="badge bg-red me-1"></span> {{ucfirst($row->status_name)}}<br />
+
+                            <span class="badge bg-success me-1"></span> {{ucfirst($row->status_name)}}<br />
                             <small>
                                 <a href="{{url('/manage/order/detail/'.urlencode(base64_encode($row->id)))}}">
                                     INV-{{$row->invoices_id}}
@@ -261,6 +261,7 @@
                                     </svg>
                                 </a>
                             </small>
+
                         </td>
                         <td data-title="Total">
 

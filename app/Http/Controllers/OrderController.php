@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\DuitkuHelper;
+use App\Models\Layout_settings;
 use App\Models\Product_asigned;
 use App\Models\Product_photo;
 use App\Models\Site_banks;
@@ -13,6 +14,7 @@ use App\Models\User_bank;
 use App\Models\User_invoices;
 use App\Models\User_invoices_item;
 use App\Models\User_invoices_payment;
+use App\Models\User_invoices_transaction;
 use App\Models\User_package;
 use App\Models\User_payment;
 
@@ -84,13 +86,156 @@ class OrderController extends Controller
             'user_order_item.product_group_name',
             'user_order_item.product_plan_name',
             'site_status.status_name',
+            'product_plan.id as product_id',
             'product_plan.product_type',
             'user_order.total',
             'user_invoices_item.invoices_id'
         );
 
         return view('pages/manage/order',[
-                'order' => $order->paginate(5)->withQueryString(),
+                'order' => $order->paginate(10)->withQueryString(),
+                'sites' => $site,
+                'site_active' => $site_active
+        ]);
+
+    }
+
+    public function list_paid(Request $request) {
+
+        $site = SiteHelper::My_Site();
+        $active_site_first = SiteHelper::Site_active_first();
+        
+        if(!empty($request->site)) {
+            $site_active = $request->site;
+        } else {
+            if($active_site_first) {
+                $site_active = $active_site_first->id;
+            } else {
+                $site_active = 0;
+            }
+        }
+
+        $order = User_orders::latest();
+        $order->where('user_order.seller_id', auth()->user()->id);
+        $order->join('user_order_item', 'user_order_item.order_id', '=', 'user_order.id');
+        $order->join('product_plan', 'product_plan.id', '=', 'user_order_item.product_id');
+        $order->join('product_asigned', 'product_asigned.product_id', '=', 'product_plan.id');
+        $order->join('user_invoices_item', 'user_invoices_item.order_id', '=', 'user_order.id');
+        $order->join('user_invoices', 'user_invoices.id', '=', 'user_invoices_item.invoices_id');
+        $order->join('site_status', 'site_status.status_code', '=', 'user_invoices.status_id');
+        
+        $order->where('user_invoices.status_id', '1004');
+        $order->orderBy('user_invoices.invoices_date', 'desc');
+        $order->where('product_asigned.site_id', $site_active);
+        $order->select('user_order.id',
+            'user_order.created_at',
+            'user_order_item.product_group_name',
+            'user_order_item.product_plan_name',
+            'site_status.status_name',
+            'product_plan.id as product_id',
+            'product_plan.product_type',
+            'user_order.total',
+            'user_invoices_item.invoices_id'
+        );
+
+        return view('pages/manage/order-paid',[
+                'order' => $order->paginate(10)->withQueryString(),
+                'sites' => $site,
+                'site_active' => $site_active
+        ]);
+
+    }
+
+
+    public function list_proccess(Request $request) {
+
+        $site = SiteHelper::My_Site();
+        $active_site_first = SiteHelper::Site_active_first();
+        
+        if(!empty($request->site)) {
+            $site_active = $request->site;
+        } else {
+            if($active_site_first) {
+                $site_active = $active_site_first->id;
+            } else {
+                $site_active = 0;
+            }
+        }
+
+        $order = User_orders::latest();
+        $order->where('user_order.seller_id', auth()->user()->id);
+        $order->join('user_order_item', 'user_order_item.order_id', '=', 'user_order.id');
+        $order->join('product_plan', 'product_plan.id', '=', 'user_order_item.product_id');
+        $order->join('product_asigned', 'product_asigned.product_id', '=', 'product_plan.id');
+        $order->join('user_invoices_item', 'user_invoices_item.order_id', '=', 'user_order.id');
+        $order->join('user_invoices', 'user_invoices.id', '=', 'user_invoices_item.invoices_id');
+        $order->join('site_status', 'site_status.status_code', '=', 'user_invoices.status_id');
+        
+        $order->where('user_invoices.status_id', '1004');
+        $order->where('user_order.status_id', '1007');
+        $order->orderBy('user_invoices.invoices_date', 'desc');
+        $order->where('product_asigned.site_id', $site_active);
+        $order->select('user_order.id',
+            'user_order.created_at',
+            'user_order_item.product_group_name',
+            'user_order_item.product_plan_name',
+            'site_status.status_name',
+            'product_plan.id as product_id',
+            'product_plan.product_type',
+            'user_order.total',
+            'user_invoices_item.invoices_id'
+        );
+
+        return view('pages/manage/order-proccess',[
+                'order' => $order->paginate(10)->withQueryString(),
+                'sites' => $site,
+                'site_active' => $site_active
+        ]);
+
+    }
+
+
+    public function list_complete(Request $request) {
+
+        $site = SiteHelper::My_Site();
+        $active_site_first = SiteHelper::Site_active_first();
+        
+        if(!empty($request->site)) {
+            $site_active = $request->site;
+        } else {
+            if($active_site_first) {
+                $site_active = $active_site_first->id;
+            } else {
+                $site_active = 0;
+            }
+        }
+
+        $order = User_orders::latest();
+        $order->where('user_order.seller_id', auth()->user()->id);
+        $order->join('user_order_item', 'user_order_item.order_id', '=', 'user_order.id');
+        $order->join('product_plan', 'product_plan.id', '=', 'user_order_item.product_id');
+        $order->join('product_asigned', 'product_asigned.product_id', '=', 'product_plan.id');
+        $order->join('user_invoices_item', 'user_invoices_item.order_id', '=', 'user_order.id');
+        $order->join('user_invoices', 'user_invoices.id', '=', 'user_invoices_item.invoices_id');
+        $order->join('site_status', 'site_status.status_code', '=', 'user_invoices.status_id');
+        
+        $order->where('user_invoices.status_id', '1004');
+        $order->where('user_order.status_id', '1006');
+        $order->orderBy('user_invoices.invoices_date', 'desc');
+        $order->where('product_asigned.site_id', $site_active);
+        $order->select('user_order.id',
+            'user_order.created_at',
+            'user_order_item.product_group_name',
+            'user_order_item.product_plan_name',
+            'site_status.status_name',
+            'product_plan.id as product_id',
+            'product_plan.product_type',
+            'user_order.total',
+            'user_invoices_item.invoices_id'
+        );
+
+        return view('pages/manage/order-complete',[
+                'order' => $order->paginate(10)->withQueryString(),
                 'sites' => $site,
                 'site_active' => $site_active
         ]);
@@ -292,7 +437,8 @@ class OrderController extends Controller
                     'payment_options' => $payment_options,
                     'site_id' => $site_id
             ]);
-
+        
+        // sudah pilih payment method
         } else {
             
             if($payment_method[0]->payment_method_group == "Manual Transfer") { 
@@ -306,21 +452,38 @@ class OrderController extends Controller
 
             }
 
-            if($payment_method[0]->payment_method_group == "Virtual Account") { 
-                
-                if($payment_method[0]->payment_expired < Carbon::now()->format('Y-m-d H:i:s')) {
+            if($payment_method[0]->payment_method_group == "Virtual Account") {
+
+                // invoices belum paid
+                if($invoices->status_id != '1004') {
+
+                    if($payment_method[0]->payment_expired < Carbon::now()->format('Y-m-d H:i:s')) {
+                        
+                        $DUITKU = DuitkuHelper::Refresh($invoices_id, $payment_method[0]->payment_method, $payment_method[0]->fee);    
+
+                    }
                     
-                    $DUITKU = DuitkuHelper::Refresh($invoices_id, $payment_method[0]->payment_method);    
+                    return view('pages/frond/payment/payment-page-va', [
+                        'invoices' => $invoices,
+                        'invoices_item' => $invoices_item,
+                        'user_bank' => $user_bank,
+                        'user_payment' => $payment_method,
+                        'site_id' => $site_id
+                    ]);
+                
+                    // invoices telah paid
+                } else {
+
+                    $user_transaction = User_invoices_transaction::where('user_invoices_transaction.invoices_id', $invoices_id)->join('site_payment_method','site_payment_method.channel_id','=','user_invoices_transaction.channel')->first();
+                    
+                    return view('pages/frond/payment/payment-success', [
+                        'invoices' => $invoices,
+                        'invoices_item' => $invoices_item,
+                        'user_transaction' => $user_transaction,
+                        'site_id' => $site_id
+                    ]);
 
                 }
-                
-                return view('pages/frond/payment/payment-page-va', [
-                    'invoices' => $invoices,
-                    'invoices_item' => $invoices_item,
-                    'user_bank' => $user_bank,
-                    'user_payment' => $payment_method,
-                    'site_id' => $site_id
-                ]);
 
 
             }
@@ -333,6 +496,15 @@ class OrderController extends Controller
     public function payment_proccess(Request $request) {
 
         $invoices_id = $request->invoices_id;
+
+        $payment_fee_settings = Layout_settings::where('site_id', $request->site)->where('key','payment_fee')->first()->value;
+
+        // bebankan biaya transaksi ke pelanggan
+        if($payment_fee_settings == 1) {
+            $calc = User_invoices::where('id',$request->invoices_id)->update([
+                'total' => $request->total,
+            ]);
+        }
 
         $payment_method = User_invoices_payment::where('invoices_id',$invoices_id)->count();
 
@@ -351,7 +523,7 @@ class OrderController extends Controller
 
             if($site_payment->payment_method_group == "Virtual Account") { 
 
-                $PG = DuitkuHelper::Create($invoices_id, $request->payment_method);
+                $PG = DuitkuHelper::Create($invoices_id, $request->payment_method, $request->fee);
 
                 if($PG['response']['success'] = false) {
 
@@ -363,12 +535,35 @@ class OrderController extends Controller
             
         } else {
 
-            $DUITKU = DuitkuHelper::Refresh($invoices_id, $request->payment_method);  
+            $DUITKU = DuitkuHelper::Refresh($invoices_id, $request->payment_method, $request->fee);  
 
         } 
 
         return redirect('/order/payment'.'/'.Crypt::encrypt($invoices_id));
 
+    }
+
+
+    public function get_payment_fee(Request $request)
+    {
+
+        try {
+
+            $payment_fee_settings = Layout_settings::where('site_id', $request->site)->where('key','payment_fee')->first()->value;
+
+            if($payment_fee_settings == 1) {
+                $method = Site_payment_method::where('id',$request->method_id)->first()->fee;
+            } else {
+                $method = 0;
+            }
+
+            return response()->json(["status" => "success", 'fee' => $method]);
+
+        } catch (\Throwable $th) {
+
+            return response()->json(["status" => "failed", 'fee' => $method]);
+
+        }
     }
 
 

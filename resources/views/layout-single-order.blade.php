@@ -192,7 +192,7 @@
                                             <path d="M7 10l2 -6" />
                                         </svg>
                                         &nbsp;
-                                        Pesan Sekarang - IDR. 50.000
+                                        Pesan Sekarang - IDR. {{number_format($product_selected->price,'0')}}
                                     </button>
 
                                 </form>

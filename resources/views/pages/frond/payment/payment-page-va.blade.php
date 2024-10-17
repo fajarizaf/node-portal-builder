@@ -128,7 +128,7 @@ $color = StoreHelper::Display_color($site_id);
                 <tr>
                     <td class="text-left" style="border-bottom:0px">
                         Total yang harus dibayar : <br />
-                        <h2>IDR. {{number_format($total,0)}}</h2>
+                        <h2>IDR. {{number_format($user_payment[0]->payment_amount,0)}}</h2>
                     </td>
                 </tr>
             </tbody>

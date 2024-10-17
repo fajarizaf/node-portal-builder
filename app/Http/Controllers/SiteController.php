@@ -117,6 +117,12 @@ class SiteController extends Controller
                 'value' => '1'
             ]);
 
+            $ASIGN_LAYOUT_SETTINGS = Layout_settings::create([
+                'site_id' => $site_id,
+                'key' => 'payment_fee',
+                'value' => '0'
+            ]);
+
             $USER_BANK = User_bank::create([
                 'site_id' => $site_id,
                 'bank_id' => '4',

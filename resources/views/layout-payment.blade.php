@@ -117,10 +117,16 @@
 
 
                 <div class="col-12 col-lg-6 col-xl-5 border-primary d-flex flex-column" style="background:#f4f7fc">
-
+                    <form method="POST" action="/order/payment" id="form-pay">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                    </form>
                     <form method="POST" action="/order/payment" id="form-product">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+
                         <input type="text" style="display:none" name="invoices_id" value="{{$invoices->id}}" />
+                        <input type="text" style="display:none" name="site" class="site" value="{{$site_id}}" />
+                        <input type="text" style="display:none" name="fee" class="fee" value="0" />
+                        <input type="text" style="display:none" name="total" class="total" value="{{$total}}" />
 
                         <div class="container px-5 pt-4" style="margin-top:0px">
 
@@ -136,7 +142,7 @@
 
                                             @forelse($payment_options as $options)
                                             <label class="form-selectgroup-item flex-fill" style="margin-bottom:10px;">
-                                                <input type="radio" name="payment_method" value="{{$options->method_id}}" class="form-selectgroup-input" checked="">
+                                                <input type="radio" name="payment_method" value="{{$options->method_id}}" class="form-selectgroup-input payment_method">
 
                                                 <div class="form-selectgroup-label d-flex align-items-center p-2">
                                                     <div class="row" style="width:100%;">
@@ -169,7 +175,7 @@
                                             @endforelse
 
 
-                                            <button type="submit" @if(!empty($color)) style="background:{{$color->value}};z-index:999;margin-top:20px" @else style="background:#503bac;z-index:999;margin-top:20px" @endif class="btn btn-primary w-100 btn-trial btn-order">
+                                            <button disabled type="submit" @if(!empty($color)) style="background:{{$color->value}};z-index:999;margin-top:20px" @else style="background:#503bac;z-index:999;margin-top:20px" @endif class="btn btn-primary w-100 btn-trial btn-order">
 
                                                 Bayar Sekarang &nbsp;
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right">
@@ -220,6 +226,48 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('#form-pay').find('input[name="_token"]').first().val()
+                }
+            });
+
+
+            $('.payment_method').click(function() {
+
+                method_id = $(this).val()
+
+                site = $('.site').val()
+
+                $.ajax({
+                    type: "GET"
+                    , dataType: "json"
+                    , url: "{{ route('get_payment_fee') }}"
+                    , data: {
+                        'method_id': method_id
+                        , 'site': site
+                    }
+                    , success: function(data) {
+
+                        $('.btn-order').removeAttr("disabled")
+
+                        var total = Number($('.total').val())
+                        var fee = Number(data['fee'])
+
+                        var calc_fee = total + fee
+                        $('.fees').html('IDR. ' + fee)
+                        $('.calc_fee').html('IDR. ' + calc_fee)
+
+                        $('.fee').val(fee);
+                        $('.total').val(calc_fee);
+
+
+                    }
+                });
+
+            })
+
 
         })
 

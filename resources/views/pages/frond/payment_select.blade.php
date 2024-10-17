@@ -52,7 +52,8 @@ $total = $total + $sub;
         <div class="accordion-item" style="background:#f4f7fc">
             <h2 class="accordion-header" id="heading-1">
                 <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true">
-                    Tagihan - <b>IDR. {{number_format($total)}}</b>
+                    Tagihan - <b class="calc_fee">IDR. {{number_format($total)}}</b>
+
                 </button>
             </h2>
             <div id="collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
@@ -92,13 +93,12 @@ $total = $total + $sub;
                             </tr>
                             <tr>
                                 <td style="border:none">Biaya Transaksi</td>
-                                <td style="border:none">-</td>
+                                <td style="border:none" class="fees">-</td>
                             </tr>
                             <tr>
                                 <td style="border:none;border-top:1px solid #ccc;"><b>Total harus dibayar</b></td>
                                 <td style="border:none;border-top:1px solid #ccc;">
-                                    <h3>IDR. {{number_format($total)}}</h3>
-
+                                    <h3 class="calc_fee">IDR. {{number_format($total)}}</h3>
                                 </td>
 
                             </tr>

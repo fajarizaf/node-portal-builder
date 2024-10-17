@@ -176,6 +176,8 @@ class StoreController extends Controller
 
         }
 
+        $settings_payment_fee = Layout_settings::where('site_id', $site_active)->where('key','payment_fee')->first();
+
         $payment_method = Site_payment_method::where('is_active',1)->get();
         $user_payment = User_payment::where('site_id', $site_active)->get();
         $site_bank = Site_banks::get();
@@ -188,6 +190,7 @@ class StoreController extends Controller
             'sites' => $site,
             'site_active' => $site_active,
             'payment_method' => $payment_method,
+            'settings_payment_fee' => $settings_payment_fee,
             'user_payment' => $user_payment,
             'site_bank' => $site_bank,
             'user_bank' => $user_bank
@@ -284,6 +287,34 @@ class StoreController extends Controller
                 ]);
             }
             
+            
+            return response()->json(["status" => "success", 'response' => 'updated']);
+
+        } catch (\Throwable $th) {
+
+            return response()->json(["status" => "failed", 'response' => $th->getMessage()]);
+
+        }
+    }
+
+    public function persona_payment_fee(Request $request)
+    {
+
+        try {
+
+            $if_exist = Layout_settings::where('site_id',$request->site)->where('key','payment_fee')->count();
+
+            if($if_exist == 0) {
+                Layout_settings::create([
+                    'site_id' => $request->site,
+                    "key" => 'payment_fee',
+                    'value' => $request->payment_fee,
+                ]);
+            } else {
+                Layout_settings::where('site_id',$request->site)->where('key','payment_fee')->update([
+                    'value' => $request->payment_fee,
+                ]);
+            }
             
             return response()->json(["status" => "success", 'response' => 'updated']);
 

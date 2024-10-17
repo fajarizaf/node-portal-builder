@@ -17,7 +17,8 @@ class User_invoices_payment extends Model
         'payment_expired',
         'payment_references',
         'payment_virtualaccount',
-        'payment_amount'
+        'payment_amount',
+        'fee'
     ];
 
 }

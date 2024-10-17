@@ -22,6 +22,8 @@ class UserInvoicesTransaction extends Migration
             $table->string('txnid');
             $table->integer('amount_in')->nullable();
             $table->integer('amount_out')->nullable();
+            $table->integer('fee')->nullable();
+            $table->integer('amount_witdraw')->nullable();
             $table->string('payment_status');
             $table->timestamps();
             

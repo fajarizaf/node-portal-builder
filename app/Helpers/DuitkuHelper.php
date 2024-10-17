@@ -8,7 +8,7 @@ use Royryando\Duitku\Facades\Duitku;
 
 class DuitkuHelper
 {
-    public static function Create($invoices_id, $payment_method) {
+    public static function Create($invoices_id, $payment_method, $fee) {
 
         $site_payment = Site_payment_method::where('id', $payment_method)->first();
 
@@ -33,7 +33,8 @@ class DuitkuHelper
                 'payment_expired' => Carbon::now()->addMinutes(420),
                 'payment_references' => $DUITKU['reference'],
                 'payment_virtualaccount' => $DUITKU['va_number'],
-                'payment_amount' => $DUITKU['amount']
+                'payment_amount' => $DUITKU['amount'],
+                'fee' => $fee
             ]);
 
         } 
@@ -45,7 +46,7 @@ class DuitkuHelper
     }
 
 
-    public static function Refresh($invoices_id, $payment_method) {
+    public static function Refresh($invoices_id, $payment_method, $fee) {
         
         $site_payment = Site_payment_method::where('id', $payment_method)->first();
 
@@ -68,7 +69,8 @@ class DuitkuHelper
                 'payment_expired' => Carbon::now()->addMinutes(420),
                 'payment_references' => $DUITKU['reference'],
                 'payment_virtualaccount' => $DUITKU['va_number'],
-                'payment_amount' => $DUITKU['amount']
+                'payment_amount' => $DUITKU['amount'],
+                'fee' => $fee
             ]);
 
         } 

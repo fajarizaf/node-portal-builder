@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User_invoices;
+use App\Models\User_invoices_payment;
 use Carbon\Carbon;
+use CustomerHelper;
 use DB;
+use Http;
 use Royryando\Duitku\Http\Controllers\DuitkuBaseController;
 
 class CallbackController extends DuitkuBaseController
@@ -23,6 +26,8 @@ class CallbackController extends DuitkuBaseController
 
             DB::beginTransaction();
 
+            $invoices_payment = User_invoices_payment::where('invoices_id', $orderId)->first();
+
             DB::table('user_invoices')->where('id', $orderId)->update(['status_id' => '1004']);
 
             DB::table('user_invoices_transaction')->insertGetId([
@@ -31,12 +36,21 @@ class CallbackController extends DuitkuBaseController
                 'channel' => $paymentCode,
                 'txnid' => $reference,
                 'amount_in' => $amount,
+                'fee' => $invoices_payment->fee,
+                'amount_witdraw' => $amount - $invoices_payment->fee,
                 'payment_status' => 'success',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
 
             DB::commit();
+
+            // send email download product
+            Http::withToken(env('BACKEND_TOKEN'))
+            ->post(env('BACKEND_URL').'/email/send', [
+                'action' => 'Link Product Download',
+                'send_to' => CustomerHelper::customer_info_byinvoices($orderId)->email,
+            ]);
 
         } catch (\Throwable $th) {
             //throw $th;

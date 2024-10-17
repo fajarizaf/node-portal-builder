@@ -21,6 +21,7 @@ class UserInvoicesPayment extends Migration
             $table->string('payment_references')->nullable();
             $table->string('payment_virtualaccount')->nullable();
             $table->integer('payment_amount')->nullable();
+            $table->integer('fee')->nullable();
 
             $table->foreign('invoices_id')->references('id')->on('user_invoices');
         });

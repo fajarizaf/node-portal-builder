@@ -17,6 +17,8 @@ class site_payment_method extends Seeder
         DB::table('site_payment_method')->insert([
             'payment_method_name' => 'Bank Transfer',
             'payment_method_group' => 'Manual Transfer',
+            'channel_id' => 'TF',
+            'fee' => 0,
             'payment_method_logo' => 'transfer.png',
             'is_active' => 1,
         ]);
@@ -24,6 +26,8 @@ class site_payment_method extends Seeder
         DB::table('site_payment_method')->insert([
             'payment_method_name' => 'COD',
             'payment_method_group' => 'Bayar Ditempat',
+            'channel_id' => 'COD',
+            'fee' => 0,
             'payment_method_logo' => 'cod.png',
             'is_active' => 0,
         ]);

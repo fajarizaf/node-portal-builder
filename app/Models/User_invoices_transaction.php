@@ -18,7 +18,9 @@ class User_invoices_transaction extends Model
         'txnid',
         'amount_in',
         'amount_out',
-        'payment_status',
+        'fee',
+        'amount_witdraw',
+        'payment_status'
     ];
 
 }
