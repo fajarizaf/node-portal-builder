@@ -62,53 +62,64 @@ $color = StoreHelper::Display_color($site_id);
 
     </div>
 
-    <div class="card">
-        <div class="row row-0">
-            <div class="col-lg-4">
-                <!-- Photo -->
-                <div id="carousel-indicators" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                        @forelse($product_photo as $photo)
-                        <button type="button" data-bs-target="#carousel-indicators" data-bs-slide-to="{{ $loop->index }}"></button>
-                        @empty
+</div>
 
-                        @endforelse
-                    </div>
-                    <div class="carousel-inner">
-                        @forelse($product_photo as $photo)
-                        <div class="carousel-item">
-                            <img class="d-block w-100" alt="" src="{{url('storage/uploads/'.$photo->photo.'')}}">
-                        </div>
-                        @empty
+<div class="card">
+    <div class="row row-0">
+        <div class="col-lg-4">
+            <!-- Photo -->
+            <div id="carousel-indicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    @forelse($product_photo as $photo)
+                    <button type="button" data-bs-target="#carousel-indicators" data-bs-slide-to="{{ $loop->index }}"></button>
+                    @empty
 
-                        @endforelse
-                    </div>
+                    @endforelse
                 </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="card-body">
-                    <h3 class="datagrid-title">Deskripsi Produk</h3>
-                    <p class="text-secondary">{!!$product_excerpt!!}</p>
-                    <button class="btn btn-sm" style="border-style:dashed;color:#666;width:100%;padding:5px;" data-bs-toggle="modal" data-bs-target="#product-expand">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M6 9l6 6l6 -6" />
-                        </svg>
-                        Lebih detail
-                    </button>
+                <div class="carousel-inner">
+                    @forelse($product_photo as $photo)
+                    <div class="carousel-item">
+                        <img class="d-block w-100" alt="" src="{{url('storage/uploads/'.$photo->photo.'')}}">
+                    </div>
+                    @empty
+
+                    @endforelse
                 </div>
             </div>
         </div>
+        <div class="col-lg-8">
+            <div class="card-body">
+                <h3 class="datagrid-title">Deskripsi Produk</h3>
+                <p class="text-secondary">{!!$product_excerpt!!}</p>
+                <button class="btn btn-sm" style="border-style:dashed;color:#666;width:100%;padding:5px;" data-bs-toggle="modal" data-bs-target="#product-expand">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M6 9l6 6l6 -6" />
+                    </svg>
+                    Lebih detail
+                </button>
+            </div>
+        </div>
     </div>
-
-
 </div>
 
+
 <br />
 <br />
 <br />
 
 
+<div class="modal modal-blur fade" id="product-expand" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{$product_selected->product_plan_name}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">{!!$product_selected->product_plan_desc!!}</div>
+        </div>
+    </div>
+</div>
 
 
 
