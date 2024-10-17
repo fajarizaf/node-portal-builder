@@ -45,7 +45,7 @@ class CustomerController extends Controller
             ->join('user_order','user_order.id','=','user_invoices_item.order_id')
             ->join('user_order_item','user_order_item.order_id','=','user_order.id')
             ->join('product_plan','product_plan.id','=','user_order_item.product_id')
-            ->first()->product_source;
+            ->first();
 
             return view('pages/frond/customer/download-product',[
                 'product' => $product,
