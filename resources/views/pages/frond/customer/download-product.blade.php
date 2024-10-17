@@ -127,6 +127,9 @@ $color = StoreHelper::Display_color($site_id);
 <script>
     $('document').ready(function() {
 
+        $(".carousel-indicators button").first().addClass("active");
+        $(".carousel-inner div").first().addClass("active");
+
 
     })
 
