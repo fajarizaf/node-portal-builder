@@ -9,6 +9,7 @@ use CustomerHelper;
 use DB;
 use Http;
 use Royryando\Duitku\Http\Controllers\DuitkuBaseController;
+use StoreHelper;
 
 class CallbackController extends DuitkuBaseController
 {
@@ -50,6 +51,8 @@ class CallbackController extends DuitkuBaseController
             ->post(env('BACKEND_EMAIL').'/email/send', [
                 'action' => 'Link Product Download',
                 'send_to' => CustomerHelper::customer_info_byinvoices($orderId)->email,
+                'logo' => url('/storage/uploads/avatar/'.StoreHelper::Get_logo($orderId)),
+                'hash' => urlencode(base64_encode($orderId))
             ]);
 
         } catch (\Throwable $th) {
