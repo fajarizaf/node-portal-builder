@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CallbackController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OauthController;
 use App\Http\Controllers\SettingsController;
@@ -43,6 +44,9 @@ Route::post('/order/payment', [OrderController::class, 'payment_proccess']);
 Route::post('/order-proccess', [OrderController::class, 'order_proccess']);
 Route::post('/order/switch', [OrderController::class, 'order_switch_product']);
 Route::get('/getpayfee', [OrderController::class, 'get_payment_fee'])->name('get_payment_fee');
+
+// customer
+Route::get('/customer/download/{invoices_id}', [CustomerController::class, 'download_product']);
 
 // tes pg
 Route::get('/duitku/get_payment_method', [OrderController::class, 'duitku_payment_method']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User_invoices;
 use App\Models\User_invoices_payment;
 use Carbon\Carbon;
+use Crypt;
 use CustomerHelper;
 use DB;
 use Http;
@@ -52,7 +53,7 @@ class CallbackController extends DuitkuBaseController
                 'action' => 'Link Product Download',
                 'send_to' => CustomerHelper::customer_info_byinvoices($orderId)->email,
                 'logo' => url('/storage/uploads/avatar/'.StoreHelper::Get_logo($orderId)),
-                'hash' => urlencode(base64_encode($orderId))
+                'hash' => Crypt::encrypt($orderId)
             ]);
 
         } catch (\Throwable $th) {
