@@ -113,10 +113,11 @@ $color = StoreHelper::Display_color($site_id);
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{$product_selected->product_plan_name}}</h5>
+                <h5 class="modal-title">{{$product->product_plan_name}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">{!!$product_selected->product_plan_desc!!}</div>
+            <div class="modal-body">{!!$product->product_plan_desc!!}</div>
+
         </div>
     </div>
 </div>
