@@ -47,7 +47,7 @@ class CallbackController extends DuitkuBaseController
 
             // send email download product
             Http::withToken(env('BACKEND_TOKEN'))
-            ->post(env('BACKEND_URL').'/email/send', [
+            ->post(env('BACKEND_EMAIL').'/email/send', [
                 'action' => 'Link Product Download',
                 'send_to' => CustomerHelper::customer_info_byinvoices($orderId)->email,
             ]);
