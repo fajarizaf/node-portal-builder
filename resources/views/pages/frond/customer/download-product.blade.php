@@ -63,7 +63,7 @@ $color = StoreHelper::Display_color($site_id);
     </div>
 
 </div>
-
+<br />
 <div class="card">
     <div class="row row-0">
         <div class="col-lg-4">
