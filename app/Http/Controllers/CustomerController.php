@@ -40,7 +40,7 @@ class CustomerController extends Controller
 
             $site_id = SiteHelper::Get_siteid_byinvoices($invoices_id);
 
-            $product = User_invoices::where('user_invoices.id',$request->invoices_id)
+            $product = User_invoices::where('user_invoices.id',$invoices_id)
             ->join('user_invoices_item','user_invoices_item.invoices_id','=', 'user_invoices.id')
             ->join('user_order','user_order.id','=','user_invoices_item.order_id')
             ->join('user_order_item','user_order_item.order_id','=','user_order.id')
@@ -57,7 +57,7 @@ class CustomerController extends Controller
             return abort(404);
 
         }
-        
+
     }
 
 }
