@@ -61,7 +61,7 @@ class OauthController extends Controller
             }
 
         } catch (Exception $e) {
-            dd($e);
+            return redirect('/login')->with('failed', 'Terjadi kegagalan, gunakan akun google lain');
         }
     }
 
