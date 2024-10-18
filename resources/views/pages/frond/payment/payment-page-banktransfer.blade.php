@@ -59,6 +59,22 @@ $color = StoreHelper::Display_color($site_id);
 
 
 <div class="card card-md">
+
+    @if(session()->has('success'))
+    <div class="alert alert-important alert-success alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    @if(session()->has('failed'))
+    <div class="alert alert-important alert-failed alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+        {{ session('failed') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+
     <div class="card-body text-center py-4 p-sm-5">
         <img src="{{ URL::asset('/assets/image/thanks_payment.png') }}" style="width:100px" />
         <h2 class="mt-5">Informasi Pembayaran</h2>
@@ -130,22 +146,34 @@ $color = StoreHelper::Display_color($site_id);
 
     </div>
     <div class="hr-text hr-text-center hr-text-spaceless">Konfirmasi Pembayaran</div>
-    <div class="card-body">
-        <div class="mb-3">
-            <label class="form-label">Nama Pemilik Rekening</label>
-            <div class="input-group input-group-flat">
-                <input type="text" class="form-control ps-1" autocomplete="off">
+    <form method="POST" enctype="multipart/form-data" action="/order/add_bukti_transfer">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+        <input type="text" style="display:none" name="invoices_id" value="{{ $invoices->id }}" />
+
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label">Nama Pemilik Rekening</label>
+                <div class="input-group input-group-flat">
+                    <input type="text" name="pemilik_rekening" class="form-control ps-1" autocomplete="off" required>
+                </div>
+            </div>
+            <div class="mb-3">
+
+                <label class="form-label">Nomor Rekening</label>
+                <input type="number" name="nomor_rekening" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">Bukti Transfer</label>
+                <input type="file" name="bukti_transfer" class="form-control" required>
+            </div>
+            <div>
+                <br /><br />
+                <button type="submit" class="btn" @if(!empty($color)) style="background:{{$color->value}};width:100%;color:#fff" @else style="background:#503bac;width:100%;color:#fff" @endif>Submit</button>
             </div>
         </div>
-        <div>
-            <label class="form-label">Nomor Rekening</label>
-            <input type="text" class="form-control" />
-        </div>
-        <div>
-            <br /><br />
-            <button type="submit" class="btn" @if(!empty($color)) style="background:{{$color->value}};width:100%;color:#fff" @else style="background:#503bac;width:100%;color:#fff" @endif>Submit</button>
-        </div>
-    </div>
+    </form>
 </div>
 
 <br />

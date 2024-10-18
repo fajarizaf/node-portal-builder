@@ -12,6 +12,7 @@ use App\Models\Site_banks;
 use App\Models\Site_payment_method;
 use App\Models\User_bank;
 use App\Models\User_invoices;
+use App\Models\User_invoices_confirm;
 use App\Models\User_invoices_item;
 use App\Models\User_invoices_payment;
 use App\Models\User_invoices_transaction;
@@ -46,7 +47,7 @@ class OrderController extends Controller
 
         $test = Duitku::createInvoice('ORDER-0111', 100000, 'VA', 'Product Name', 'John Doe', 'john@example.com', 120);
         dd($test);
-        
+
     }
 
     public function duitku_payment_method(Request $request) {
@@ -100,6 +101,38 @@ class OrderController extends Controller
         ]);
 
     }
+
+
+    public function add_buktitransfer(Request $request) {
+
+        try {
+        
+            $this->validate($request, [
+                'pemilik_rekening' => 'required',
+                'nomor_rekening' => 'required',
+                'bukti_transfer' => 'required',
+            ]);
+
+            $uploadlocal = $request->file('bukti_transfer');
+            $source_name = $uploadlocal->hashName();
+            $uploadlocal->storeAs('public/uploads/payment', $source_name);
+
+            User_invoices_confirm::create([
+                'invoices_id' => $request->invoices_id,
+                "pemilik_rekening" => $request->pemilik_rekening,
+                'nomor_rekening' => $request->nomor_rekening,
+                'bukti_transfer' => $source_name,
+            ]);
+
+            return redirect('/order/payment/'.Crypt::encrypt($request->invoices_id))->with('success', 'Terima kasih, bukti pembayaran kamu akan kami proses secepatnya.');
+
+        } catch (\Throwable $th) {
+            dd($th);
+            return redirect('/order/payment/'.Crypt::encrypt($request->invoices_id))->with('failed', 'Terjadi kegagalan pada saat upload bukti pembayaran');
+        }
+
+    }
+
 
     public function list_paid(Request $request) {
 

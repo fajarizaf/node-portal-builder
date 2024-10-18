@@ -67,7 +67,6 @@ $color = StoreHelper::Display_color($site_id);
                 </small>
 
                 <b id="myText">{{\Carbon\Carbon::parse($product->invoices_date)->format('d M Y - H:i:s')}}</b>
-
             </div>
 
             <div onclick="copyContent()">
@@ -94,9 +93,9 @@ $color = StoreHelper::Display_color($site_id);
         <p class="text-secondary" style="font-size:14px;"><span class="badge bg-cyan text-cyan-fg">{{$product->product_type}}</span>&nbsp; {{$product->product_plan_name}}</p>
 
         @if($product->product_type == 'produk digital')
-        <a href="{{url('/customer/file/'.$product->product_source)}}" class="btn">Download Produk</a>
+        <a href="{{url('/customer/file/'.$product->product_source)}}" class="btn" @if(!empty($color)) style="background:{{$color->value}};width:100%;color:#fff" @else style="background:#503bac;width:100%;color:#fff" @endif>Download Produk</a>
         @else
-        <a href="{{$product->product_source}}" class="btn">Download Produk</a>
+        <a href="{{$product->product_source}}" class="btn" @if(!empty($color)) style="background:{{$color->value}};width:100%;color:#fff" @else style="background:#503bac;width:100%;color:#fff" @endif>Download Produk</a>
         @endif
 
     </div>

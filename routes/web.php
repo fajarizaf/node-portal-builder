@@ -43,6 +43,7 @@ Route::get('/order/payment/{invoices_id}', [OrderController::class, 'payment_sel
 Route::post('/order/payment', [OrderController::class, 'payment_proccess']);
 Route::post('/order-proccess', [OrderController::class, 'order_proccess']);
 Route::post('/order/switch', [OrderController::class, 'order_switch_product']);
+Route::post('/order/add_bukti_transfer', [OrderController::class, 'add_buktitransfer']);
 Route::get('/getpayfee', [OrderController::class, 'get_payment_fee'])->name('get_payment_fee');
 
 // customer
