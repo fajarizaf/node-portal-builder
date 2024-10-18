@@ -145,7 +145,6 @@
                                                                     $total = $total + $sub;
                                                                     @endphp
                                                                     IDR. {{number_format($sub)}}
-
                                                                 </td>
                                                             </tr>
                                                             @empty
@@ -162,16 +161,13 @@
                                                             </tr>
                                                             <tr>
                                                                 <td style="border:none">Biaya Transaksi</td>
-                                                                <td style="border:none">-</td>
-
+                                                                <td style="border:none">IDR. {{$invoices_payment->fee}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td style="border:none;border-top:1px solid #ccc;"><b>Total harus dibayar</b></td>
                                                                 <td style="border:none;border-top:1px solid #ccc;">
-                                                                    <h3>IDR. {{number_format($total)}}</h3>
-
+                                                                    <h3>IDR. {{number_format($invoices_payment->payment_amount)}}</h3>
                                                                 </td>
-
                                                             </tr>
 
                                                         </tbody>

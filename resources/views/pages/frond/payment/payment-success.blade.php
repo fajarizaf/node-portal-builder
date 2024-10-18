@@ -75,7 +75,7 @@ $color = StoreHelper::Display_color($site_id);
                 <tr>
                     <td class="text-left">Total Tagihan</td>
                     <td>:</td>
-                    <td class="text-left"><b>IDR. {{number_format($total,0)}}</b></td>
+                    <td class="text-left"><b>IDR. {{number_format($invoices_payment->payment_amount,0)}}</b></td>
                 </tr>
                 <tr>
                     <td class="text-left">Total Dibayar</td>
@@ -113,9 +113,6 @@ $color = StoreHelper::Display_color($site_id);
             </div>
 
         </div>
-
-
-
 
     </div>
     <div class="hr-text hr-text-center hr-text-spaceless">Link download produk</div>

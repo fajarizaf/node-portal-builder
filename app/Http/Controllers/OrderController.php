@@ -463,6 +463,7 @@ class OrderController extends Controller
         ->get();
 
         // belum pilih payment method
+
         if($payment_method->count() == 0) {
             
             return view('pages/frond/payment_select', [
@@ -488,6 +489,8 @@ class OrderController extends Controller
 
             if($payment_method[0]->payment_method_group == "Virtual Account") {
 
+                $invoices_payment = User_invoices_payment::where('invoices_id', $invoices_id)->first();
+
                 // invoices belum paid
                 if($invoices->status_id != '1004') {
 
@@ -500,6 +503,7 @@ class OrderController extends Controller
                     return view('pages/frond/payment/payment-page-va', [
                         'invoices' => $invoices,
                         'invoices_item' => $invoices_item,
+                        'invoices_payment' => $invoices_payment,
                         'user_bank' => $user_bank,
                         'user_payment' => $payment_method,
                         'site_id' => $site_id
@@ -513,6 +517,7 @@ class OrderController extends Controller
                     return view('pages/frond/payment/payment-success', [
                         'invoices' => $invoices,
                         'invoices_item' => $invoices_item,
+                        'invoices_payment' => $invoices_payment,
                         'user_transaction' => $user_transaction,
                         'site_id' => $site_id
                     ]);
@@ -550,7 +555,9 @@ class OrderController extends Controller
 
                 $CREATE_PAYMENT = User_invoices_payment::create([
                     'invoices_id' => $invoices_id,
-                    'payment_method' => $request->payment_method
+                    'payment_method' => $request->payment_method,
+                    'payment_amount' => $request->total,
+                    'fee' => 0,
                 ]);
 
             }
