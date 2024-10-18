@@ -95,7 +95,7 @@ $color = StoreHelper::Display_color($site_id);
             <div>
 
                 <small class="form-hint">
-                    No referensi pembayaran :
+                    No referensi pembayaran anda :
                 </small>
 
                 <b id="myText">{{$user_transaction->txnid}}</b>
