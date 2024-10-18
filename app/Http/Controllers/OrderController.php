@@ -44,8 +44,9 @@ class OrderController extends Controller
 
     public function duitku_create_invoices(Request $request) {
 
-        $test = Duitku::createInvoice('ORDER-0017', 100000, 'IQ', 'Product Name', 'John Doe', 'john@example.com', 120);
+        $test = Duitku::createInvoice('ORDER-0111', 100000, 'VA', 'Product Name', 'John Doe', 'john@example.com', 120);
         dd($test);
+        
     }
 
     public function duitku_payment_method(Request $request) {

@@ -87,13 +87,13 @@ $color = StoreHelper::Display_color($site_id);
 
         <p class="text-secondary" style="font-size:12px;">Telah berhasil kami terima.</p>
 
-
         <div class="form-selectgroup-label d-flex align-items-center p-3" style="justify-content:space-between;margin-bottom:10px;margin-top:10px;">
 
             <div class="me-3">
                 <img style="height:50px" src="{{ URL::asset('/assets/image/channel/'.$user_transaction->payment_method_logo) }}" />
             </div>
             <div>
+
                 <small class="form-hint">
                     No referensi pembayaran :
                 </small>

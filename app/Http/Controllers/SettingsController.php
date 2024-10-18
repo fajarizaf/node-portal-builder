@@ -71,7 +71,6 @@ class SettingsController extends Controller
                 'dokument_buku_tabungan' => 'required|image|mimes:jpg,png,jpeg,gif|max:1024',
             ]);
 
-         
                 $upload_ktp = $request->file('dokument_ktp');
                 $file_name_ktp = $upload_ktp->hashName();
                 $upload_ktp->storeAs('public/uploads/verification', $file_name_ktp);

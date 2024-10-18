@@ -50,6 +50,29 @@ $color = StoreHelper::Display_color($site_id);
 
 <div class="card card-md">
 
+    <div class="form-selectgroup-label d-flex align-items-center p-3" style="justify-content:space-between;margin-bottom:10px;margin-top:10px;">
+
+        <div>
+            <small class="form-hint">
+                Nomor Pesanan :
+            </small>
+
+            <b id="myText">ODR-{{$product->order_id}}</b>
+        </div>
+        <div onclick="copyContent()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-library">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M7 3m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+                <path d="M4.012 7.26a2.005 2.005 0 0 0 -1.012 1.737v10c0 1.1 .9 2 2 2h10c.75 0 1.158 -.385 1.5 -1" />
+                <path d="M11 7h5" />
+                <path d="M11 10h6" />
+                <path d="M11 13h3" />
+            </svg>
+        </div>
+
+    </div>
+
+
     <div class="hr-text hr-text-center hr-text-spaceless">Link download produk</div>
 
     <div class="card-body text-center py-4 p-sm-5">
@@ -58,7 +81,11 @@ $color = StoreHelper::Display_color($site_id);
         <h3></h3>
         <p class="text-secondary" style="font-size:14px;"><span class="badge bg-cyan text-cyan-fg">{{$product->product_type}}</span>&nbsp; {{$product->product_plan_name}}</p>
 
+        @if($product->product_type == 'produk digital')
         <a href="{{url('/customer/file/'.$product->product_source)}}" class="btn">Download Produk</a>
+        @else
+        <a href="{{$product->product_source}}" class="btn">Download Produk</a>
+        @endif
 
     </div>
 

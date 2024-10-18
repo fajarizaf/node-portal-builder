@@ -133,10 +133,10 @@ $display = StoreHelper::Display_product($site_id);
         $(".carousel-indicators button").first().addClass("active");
         $(".carousel-inner div").first().addClass("active");
 
-
         $('#select-product').on('change', function() {
             this.form.submit();
         });
+
     })
 
 
