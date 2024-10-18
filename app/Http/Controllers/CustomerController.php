@@ -75,9 +75,9 @@ class CustomerController extends Controller
 
     public function download(Request $request) {
 
-        $file_path = public_path('uploads/product/'.$request->file);
+        $file_path = public_path('storage/uploads/product/'.$request->file);
         return response()->download($file_path);
-        
+
     }
 
 }
