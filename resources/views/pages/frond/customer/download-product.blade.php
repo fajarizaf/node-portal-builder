@@ -58,7 +58,7 @@ $color = StoreHelper::Display_color($site_id);
         <h3></h3>
         <p class="text-secondary" style="font-size:14px;"><span class="badge bg-cyan text-cyan-fg">{{$product->product_type}}</span>&nbsp; {{$product->product_plan_name}}</p>
 
-        <a href="{{url('/storage/uploads/product/'.$product->product_source)}}" class="btn">Download Produk</a>
+        <a href="{{url('/customer/file/'.$product->product_source)}}" class="btn">Download Produk</a>
 
     </div>
 

@@ -47,6 +47,7 @@ Route::get('/getpayfee', [OrderController::class, 'get_payment_fee'])->name('get
 
 // customer
 Route::get('/customer/download/{invoices_id}', [CustomerController::class, 'download_product']);
+Route::get('/customer/file/{file}', [CustomerController::class, 'download']);
 
 // tes pg
 Route::get('/duitku/get_payment_method', [OrderController::class, 'duitku_payment_method']);
