@@ -332,6 +332,8 @@ class StoreController extends Controller
         try {
             
             Browsershot::url($request->domain_name)
+                ->noSandbox()
+                ->ignoreHttpsErrors()
                 ->setNodeBinary('/bin/node')
                 ->setNpmBinary('/bin/npm')
                 ->setChromePath("/usr/bin/chromium-browser")
@@ -357,6 +359,8 @@ class StoreController extends Controller
         try {
             
             Browsershot::url($request->domain_name)
+                ->noSandbox()
+                ->ignoreHttpsErrors()
                 ->setNodeBinary('/bin/node')
                 ->setNpmBinary('/bin/npm')
                 ->setChromePath("/usr/bin/chromium-browser")
