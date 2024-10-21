@@ -332,6 +332,7 @@ class StoreController extends Controller
         try {
             
             Browsershot::url('https://getbootstrap.com/')
+                ->setIncludePath('$PATH:/usr/bin')
                 ->setOption('landscape', false)
                 ->windowSize(300, 616)
                 ->waitUntilNetworkIdle()
@@ -352,6 +353,7 @@ class StoreController extends Controller
         try {
             
             Browsershot::url('https://getbootstrap.com/')
+                ->setIncludePath('$PATH:/usr/bin')
                 ->setOption('landscape', false)
                 ->windowSize(1200, 780)
                 ->waitUntilNetworkIdle()
