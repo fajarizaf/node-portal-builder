@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             user_order::class,
             user_package::class,
             site_bank::class,
+            template_emails::class,
         ]);
 
     }

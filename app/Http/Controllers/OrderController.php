@@ -18,8 +18,6 @@ use App\Models\User_invoices_payment;
 use App\Models\User_invoices_transaction;
 use App\Models\User_package;
 use App\Models\User_payment;
-
-
 use App\Models\Product_plan;
 use App\Models\Product_group;
 use App\Models\Product_price;
@@ -30,9 +28,14 @@ use App\Models\Build_status;
 use App\Models\User_subscriptions;
 use App\Models\Site;
 use App\Models\Users;
+use App\Models\Emaillogs;
 use ProdukHelper;
 use Royryando\Duitku\Facades\Duitku;
 use SiteHelper;
+use OrderHelper;
+use CustomerHelper;
+use StoreHelper;
+use Http;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
@@ -91,10 +94,60 @@ class OrderController extends Controller
             'product_plan.id as product_id',
             'product_plan.product_type',
             'user_order.total',
-            'user_invoices_item.invoices_id'
+            'user_invoices_item.invoices_id',
         );
 
         return view('pages/manage/order',[
+                'order' => $order->paginate(10)->withQueryString(),
+                'sites' => $site,
+                'site_active' => $site_active
+        ]);
+
+    }
+
+
+    public function confirm(Request $request) {
+
+        $site = SiteHelper::My_Site();
+        $active_site_first = SiteHelper::Site_active_first();
+        
+        if(!empty($request->site)) {
+            $site_active = $request->site;
+        } else {
+            if($active_site_first) {
+                $site_active = $active_site_first->id;
+            } else {
+                $site_active = 0;
+            }
+        }
+
+        $order = User_orders::latest();
+        $order->where('user_order.seller_id', auth()->user()->id);
+        $order->join('user_order_item', 'user_order_item.order_id', '=', 'user_order.id');
+        $order->join('product_plan', 'product_plan.id', '=', 'user_order_item.product_id');
+        $order->join('product_asigned', 'product_asigned.product_id', '=', 'product_plan.id');
+        $order->join('user_invoices_item', 'user_invoices_item.order_id', '=', 'user_order.id');
+        $order->join('user_invoices', 'user_invoices.id', '=', 'user_invoices_item.invoices_id');
+        $order->join('user_invoices_confirm', 'user_invoices_confirm.invoices_id', '=', 'user_invoices.id');
+        $order->join('user_invoices_payment', 'user_invoices_payment.invoices_id', '=', 'user_invoices.id');
+        $order->join('site_status', 'site_status.status_code', '=', 'user_invoices.status_id');
+        
+        $order->where('user_invoices.status_id', '1005');
+        $order->orderBy('user_invoices.invoices_date', 'desc');
+        $order->where('product_asigned.site_id', $site_active);
+        $order->select('user_order.id',
+            'user_order.created_at',
+            'user_order_item.product_group_name',
+            'user_order_item.product_plan_name',
+            'site_status.status_name',
+            'product_plan.id as product_id',
+            'product_plan.product_type',
+            'user_order.total',
+            'user_invoices_item.invoices_id',
+            'user_invoices_confirm.bukti_transfer'
+        );
+
+        return view('pages/manage/order-confirm',[
                 'order' => $order->paginate(10)->withQueryString(),
                 'sites' => $site,
                 'site_active' => $site_active
@@ -277,6 +330,127 @@ class OrderController extends Controller
     }
 
 
+    public function detail(Request $request) {
+
+        try {
+            
+            $order_id = Crypt::decrypt($request->order_id);
+            $inv = OrderHelper::Get_invoices($order_id);
+            $inv_status = OrderHelper::Get_invoices_status($inv['invoices_id']);
+            
+            $order = User_orders::where('user_order.id', $order_id)->first();
+            $order_item = User_order_item::where('order_id', $order_id)->get();
+            $invoices_item = User_invoices_item::where('order_id', $order_id)->get();
+            $invoices = User_invoices::where('id', $inv['invoices_id'])->get();
+            $invoices_payment = User_invoices_payment::where('user_invoices_payment.invoices_id', $inv['invoices_id'])->join('site_payment_method','site_payment_method.id','=','user_invoices_payment.payment_method')->get();
+            $invoices_confirm = User_invoices_confirm::where('invoices_id', $inv['invoices_id'])->get();
+            $transaksi = User_invoices_transaction::where('user_invoices_transaction.invoices_id', $inv['invoices_id'])->join('site_payment_method','site_payment_method.channel_id','=','user_invoices_transaction.channel')->get();
+            $customer = Users::where('id', $order->user_id)->first();
+            $email_log = Emaillogs::where('module_id', $inv['invoices_id'])->orderBy('createdAt','DESC')->get();
+           
+            return view('pages/manage/order-detail',[
+                'order' => $order,
+                'order_item' => $order_item,
+                'customer' => $customer,
+                'invoices_id' => $inv['invoices_id'],
+                'invoices_status' => $inv_status['status'],
+                'invoices' => $invoices,
+                'transaksi' => $transaksi,
+                'invoices_item' => $invoices_item,
+                'invoices_payment' => $invoices_payment,
+                'invoices_payment_count' => count($invoices_payment),
+                'invoices_confirm' => $invoices_confirm,
+                'email_log' => $email_log
+            ]);
+
+        } catch (\Throwable $th) {
+            dd($th);
+            return redirect('manage/order')->with('failed', 'akses link tidak diterima');;
+        }
+
+    }
+
+    public function set_paid(Request $request) {
+
+        try {
+            
+            $validation = $request->validate([
+                'payment_date' => 'required',
+                'transaction_id' => 'required',
+                'amount' => 'required',
+            ]);
+
+            DB::beginTransaction();
+
+            DB::table('user_invoices_transaction')->insert([
+                'invoices_id' => $request->invoices_id,
+                'gateway' => 'NO GATEWAY',
+                'channel' => 'TF',
+                'txnid' => $request->transaction_id,
+                'amount_in' => $request->amount,
+                'fee' => 0,
+                'amount_witdraw' => 0,
+                'payment_status' => 'success',
+                'created_at' => $request->payment_date,
+                'updated_at' => $request->payment_date,
+            ]);
+
+            DB::table('user_invoices')->where('id', $request->invoices_id)->update([
+                'status_id' => 1004,
+                'invoices_datepaid' => now(),
+            ]);
+
+            // EMAIL Pembayaran diterima, send email download product
+            Http::withToken(env('BACKEND_TOKEN'))
+            ->post(env('BACKEND_EMAIL').'/email/send', [
+                'action' => 'Link Produk Download',
+                'send_to' => CustomerHelper::customer_info_byinvoices($request->invoices_id)->email,
+                'module_id' => $request->invoices_id,
+                'logo' => url('/storage/uploads/avatar/'.StoreHelper::Get_logo($request->invoices_id)),
+                'hash' => Crypt::encrypt($request->invoices_id)
+            ]);
+
+            DB::commit();
+
+            return redirect('/manage/order/detail'.'/'.Crypt::encrypt($request->order_id))->with('success', 'Berhasil, pesanan ini telah di tandai telah dibayarkan');
+
+        } catch (\Throwable $th) {
+            dd($th);
+            return redirect('/manage/order/detail'.'/'.Crypt::encrypt($request->order_id))->with('failed', 'Gagal, hubungi admin kami terkait issue ini');
+
+        }
+
+    }
+
+
+    public function set_completed(Request $request) {
+
+        try {
+            
+            $validation = $request->validate([
+                'order_id' => 'required',
+            ]);
+
+            DB::beginTransaction();
+
+
+            DB::table('user_order')->where('id', $request->order_id)->update([
+                'status_id' => 1006
+            ]);
+
+            DB::commit();
+
+            return redirect('/manage/order/detail'.'/'.Crypt::encrypt($request->order_id))->with('success', 'Berhasil, pesanan ini telah di tandai telah selesai');
+
+        } catch (\Throwable $th) {
+            dd($th);
+            return redirect('/manage/order/detail'.'/'.Crypt::encrypt($request->order_id))->with('failed', 'Gagal, hubungi admin kami terkait issue ini');
+
+        }
+
+    }
+
+
     public function order(Request $request, $product_id) {
 
         $product_id = base64_decode($product_id);
@@ -424,6 +598,19 @@ class OrderController extends Controller
 
                 }
 
+                // EMAIL Pembayaran diterima, send email download product
+                Http::withToken(env('BACKEND_TOKEN'))
+                ->post(env('BACKEND_EMAIL').'/email/send', [
+                    'action' => 'Link Informasi Pesanan',
+                    'send_to' => CustomerHelper::customer_info_byinvoices($CREATE_INVOICES)->email,
+                    'module_id' => $CREATE_INVOICES,
+                    'order_id' => $CREATE_INVOICES,
+                    'order_date' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'order_amount' => number_format($total,'0'),
+                    'logo' => url('/storage/uploads/avatar/'.StoreHelper::Get_logo($CREATE_INVOICES)),
+                    'hash' => Crypt::encrypt($CREATE_INVOICES)
+                ]);
+
                 DB::commit();
 
                 return redirect('/order/payment'.'/'.Crypt::encrypt($CREATE_INVOICES));
@@ -431,9 +618,7 @@ class OrderController extends Controller
             
 
         } catch (\Throwable $th) {
-            
             DB::rollBack();
-
         }
 
 
@@ -462,6 +647,8 @@ class OrderController extends Controller
         ->select('user_bank.id','user_bank.account_name','user_bank.account_number','site_banks.bank_logo','user_bank.notes')
         ->get();
 
+        $invoices_payment = User_invoices_payment::where('invoices_id', $invoices_id)->first();
+
         // belum pilih payment method
 
         if($payment_method->count() == 0) {
@@ -477,19 +664,37 @@ class OrderController extends Controller
         } else {
             
             if($payment_method[0]->payment_method_group == "Manual Transfer") { 
+                
+                if($invoices->status_id != '1004') {
 
-                return view('pages/frond/payment/payment-page-banktransfer', [
-                    'invoices' => $invoices,
-                    'invoices_item' => $invoices_item,
-                    'user_bank' => $user_bank,
-                    'site_id' => $site_id
-                ]);
+                    return view('pages/frond/payment/payment-page-banktransfer', [
+                        'invoices' => $invoices,
+                        'invoices_item' => $invoices_item,
+                        'invoices_payment' => $invoices_payment,
+                        'user_bank' => $user_bank,
+                        'site_id' => $site_id
+                    ]);
+
+                } else {
+
+                    $user_transaction = User_invoices_transaction::where('user_invoices_transaction.invoices_id', $invoices_id)->join('site_payment_method','site_payment_method.channel_id','=','user_invoices_transaction.channel')->first();
+                    
+                    return view('pages/frond/payment/payment-success', [
+                        'invoices' => $invoices,
+                        'invoices_item' => $invoices_item,
+                        'invoices_payment' => $invoices_payment,
+                        'user_transaction' => $user_transaction,
+                        'site_id' => $site_id
+                    ]);
+
+                }
+                
 
             }
 
             if($payment_method[0]->payment_method_group == "Virtual Account") {
 
-                $invoices_payment = User_invoices_payment::where('invoices_id', $invoices_id)->first();
+                
 
                 // invoices belum paid
                 if($invoices->status_id != '1004') {
@@ -573,6 +778,19 @@ class OrderController extends Controller
                 }
 
             }
+
+            // EMAIL konfirmasi pembayaran pesanan
+                Http::withToken(env('BACKEND_TOKEN'))
+                ->post(env('BACKEND_EMAIL').'/email/send', [
+                    'action' => 'Link Konfirmasi Pembayaran',
+                    'send_to' => CustomerHelper::customer_info_byinvoices($invoices_id)->email,
+                    'module_id' => $invoices_id,
+                    'invoices_id' => $invoices_id,
+                    'invoices_date' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'invoices_amount' => $request->total,
+                    'logo' => url('/storage/uploads/avatar/'.StoreHelper::Get_logo($invoices_id)),
+                    'hash' => Crypt::encrypt($invoices_id)
+                ]);
             
         } else {
 

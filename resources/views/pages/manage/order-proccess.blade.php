@@ -9,7 +9,8 @@
 @endif
 
 @if(session()->has('failed'))
-<div class="alert alert-important alert-failed alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+<div class="alert alert-important alert-danger alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+
     {{ session('failed') }}
 
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -276,8 +277,9 @@
                             </a>
                         </td>
                         <td>
-                            <div class="btn btn-sm btn-primary btn-pill w-100">Detail</div>
-
+                            <a href="{{url('manage/order/detail/'.Crypt::encrypt($row->id))}}">
+                                <div class="btn btn-sm btn-primary btn-pill w-100">Detail</div>
+                            </a>
                         </td>
                     </tr>
                     @empty

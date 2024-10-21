@@ -9,7 +9,8 @@
 @endif
 
 @if(session()->has('failed'))
-<div class="alert alert-important alert-failed alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+<div class="alert alert-important alert-danger alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+
     {{ session('failed') }}
 
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -87,8 +88,6 @@
             <div class="col-12 col-md-10">
                 <ul class="navbar-nav">
                     <li class="nav-item @if(Request::segment(3) == '') active @endif">
-
-
                         <a style="color:#212053" class="nav-link" href="{{url('/manage/order')}}" title="Invoice Drafted">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alarm" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -103,9 +102,24 @@
 
                         </a>
                     </li>
+                    <li class="nav-item @if(Request::segment(3) == 'confirm') active @endif">
+                        <a style="color:#212053" class="nav-link" href="{{url('/manage/order/confirm')}}" title="Invoice Published">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clipboard-list">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
+                                    <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+                                    <path d="M9 12l.01 0" />
+                                    <path d="M13 12l2 0" />
+                                    <path d="M9 16l.01 0" />
+                                    <path d="M13 16l2 0" />
+                                </svg>
+                            </span>
+                            <span class="nav-link-title"><b>Confirm</b></span>
+
+                        </a>
+                    </li>
                     <li class="nav-item @if(Request::segment(3) == 'paid') active @endif">
-
-
                         <a style="color:#212053" class="nav-link" href="{{url('/manage/order/paid')}}" title="Invoice Published">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-basket-check" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -118,20 +132,6 @@
                                 </svg>
                             </span>
                             <span class="nav-link-title"><b>Paid</b></span>
-
-                        </a>
-                    </li>
-                    <li class="nav-item @if(Request::segment(3) == 'proccess') active @endif">
-
-
-                        <a style="color:#212053" class="nav-link" href="{{url('/manage/order/proccess')}}" title="Invoice Published">
-                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-activity-heartbeat">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M3 12h4.5l1.5 -6l4 12l2 -9l1.5 3h4.5" />
-                                </svg>
-                            </span>
-                            <span class="nav-link-title"><b>Proccess</b></span>
 
                         </a>
                     </li>
@@ -276,8 +276,9 @@
                             </a>
                         </td>
                         <td>
-                            <div class="btn btn-sm btn-primary btn-pill w-100">Detail</div>
-
+                            <a href="{{url('manage/order/detail/'.Crypt::encrypt($row->id))}}">
+                                <div class="btn btn-sm btn-primary btn-pill w-100">Detail</div>
+                            </a>
                         </td>
                     </tr>
                     @empty

@@ -45,6 +45,7 @@ class BillingController extends Controller
         $invoices = User_invoices::latest();
 
         $invoices->where('user_invoices.user_id', auth()->user()->id);
+        $invoices->where('user_order.seller_id',2);
         $invoices->join('user_invoices_item', 'user_invoices_item.invoices_id', '=', 'user_invoices.id');
         $invoices->join('user_order_item', 'user_order_item.order_id', '=', 'user_invoices_item.order_id');
         $invoices->join('user_order', 'user_order.id', '=', 'user_order_item.order_id');
@@ -52,7 +53,7 @@ class BillingController extends Controller
         $invoices->orderBy('user_invoices.invoices_date','desc');
 
         $invoices->select(
-   'user_invoices.id',
+            'user_invoices.id',
             'user_invoices.id',
             'user_invoices.invoices_type',
             'user_order.created_at',

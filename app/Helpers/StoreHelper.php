@@ -38,6 +38,16 @@ class StoreHelper
 
     }
 
+    public static function Url_snapshoot_detail($site_id) {
+
+        $product_id = Product_asigned::where('site_id',$site_id)->first();
+
+        return url('/order/'.urlencode(base64_encode($product_id->product_id)));
+
+    }
+
+
+
     public static function Get_logo($invoices_id) {
 
         $logo = User_invoices_item::where('user_invoices_item.invoices_id',$invoices_id)

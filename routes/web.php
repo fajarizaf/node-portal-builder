@@ -87,11 +87,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/manage/site', [SiteController::class, 'index']);
 
     // store
-    Route::get('/store', [StoreController::class, 'index']);
-    Route::get('/store/settings/{site}', [StoreController::class, 'settings']);
-    Route::get('/store/order/{site}', [StoreController::class, 'order']);
-    Route::get('/store/payment/{site}', [StoreController::class, 'payment']);
-    Route::post('/store/payment', [StoreController::class, 'payment']);
+    Route::get('/manage/store', [StoreController::class, 'index']);
+    Route::get('/manage/store/settings/{site}', [StoreController::class, 'settings']);
+    Route::get('/manage/store/order/{site}', [StoreController::class, 'order']);
+    Route::get('/manage/store/payment/{site}', [StoreController::class, 'payment']);
+    Route::post('/manage/store/payment', [StoreController::class, 'payment']);
 
     Route::post('/store/uploadlogo', [StoreController::class, 'persona_logo'])->name('uploadlogo');
     Route::post('/store/setcolor', [StoreController::class, 'persona_color'])->name('set_color');
@@ -106,9 +106,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     //order
     Route::get('/manage/order',[OrderController::class, 'list']);
+    Route::get('/manage/order/detail/{order_id}',[OrderController::class, 'detail']);
+    Route::get('/manage/order/confirm',[OrderController::class, 'confirm']);
     Route::get('/manage/order/paid',[OrderController::class, 'list_paid']);
     Route::get('/manage/order/proccess',[OrderController::class, 'list_proccess']);
     Route::get('/manage/order/complete',[OrderController::class, 'list_complete']);
+    Route::post('/manage/order/set_paid',[OrderController::class, 'set_paid']);
+    Route::post('/manage/order/set_completed',[OrderController::class, 'set_completed']);
 
     //transaction
     Route::get('/manage/transaksi',[TransactionController::class, 'list']);

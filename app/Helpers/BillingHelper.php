@@ -22,6 +22,8 @@ class BillingHelper
         ->join('user_invoices','user_invoices.id','=', 'user_invoices_item.invoices_id')
         ->join('user_invoices_transaction','user_invoices_transaction.invoices_id','=', 'user_invoices.id')
         ->where('user_invoices.status_id','1004')
+        ->where('user_invoices_transaction.channel','!=','TF')
+        ->where('user_invoices_transaction.channel','!=','COD')
         ->where('user_invoices_transaction.created_at','<', Carbon::today()->addDays(7))
         ->sum('user_invoices_transaction.amount_in');
 
@@ -36,6 +38,8 @@ class BillingHelper
         ->join('user_invoices','user_invoices.id','=', 'user_invoices_item.invoices_id')
         ->join('user_invoices_transaction','user_invoices_transaction.invoices_id','=', 'user_invoices.id')
         ->where('user_invoices.status_id','1004')
+        ->where('user_invoices_transaction.channel','!=','TF')
+        ->where('user_invoices_transaction.channel','!=','COD')
         ->where('user_invoices_transaction.created_at','>=', Carbon::today()->addDays(7))
         ->sum('user_invoices_transaction.amount_in');
 

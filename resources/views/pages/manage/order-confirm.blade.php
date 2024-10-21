@@ -24,7 +24,6 @@
 
     @media only screen and (max-width: 1000px) {
 
-
         /* Force table to not be like tables anymore */
         #no-more-tables table,
         #no-more-tables thead,
@@ -118,10 +117,11 @@
                                 </svg>
                             </span>
                             <span class="nav-link-title"><b>Confirm</b></span>
-
                         </a>
                     </li>
                     <li class="nav-item @if(Request::segment(3) == 'paid') active @endif">
+
+
                         <a style="color:#212053" class="nav-link" href="{{url('/manage/order/paid')}}" title="Invoice Published">
                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-basket-check" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -183,7 +183,7 @@
                 </h2>
             </div>
             <div class="col-lg-2 p-2">
-                <form method="GET" action="complete">
+                <form method="GET" action="">
                     <select name="site" class="form-select select-site">
                         @forelse($sites as $ste)
                         <option value="{{$ste->id}}" @if($site_active==$ste->id) selected @endif>{{$ste->domain_name}}</option>
@@ -217,6 +217,7 @@
                         <th>Total</th>
                         <th>Payment</th>
                         <th>Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -232,6 +233,7 @@
                             <small>Jam : {{\Carbon\Carbon::parse($row->created_at)->format('H:i:s')}}</small>
                         </td>
                         <td data-title="Produk Dipesan">
+
                             <a href="invoice.html" class="text-reset" tabindex="-1">
                                 <b><br />{{$row->product_plan_name}}</b>
                                 <a href="{{url('/manage/product/detail/'.urlencode(base64_encode($row->product_id)))}}">
@@ -250,8 +252,7 @@
                             <span class="badge bg-purple text-purple-fg">{{$row->product_type}}</span>
                         </td>
                         <td data-title="Status">
-
-                            <span class="badge bg-success me-1"></span> {{ucfirst($row->status_name)}}<br />
+                            <span class="badge bg-red me-1"></span> {{ucfirst($row->status_name)}}<br />
                             <small>
                                 <a href="{{url('/manage/order/detail/'.urlencode(base64_encode($row->id)))}}">
                                     INV-{{$row->invoices_id}}
@@ -263,16 +264,15 @@
                                     </svg>
                                 </a>
                             </small>
-
                         </td>
                         <td data-title="Total">
 
                             <div class="red">- IDR. {{number_format($row->total,'0')}}</div>
                         </td>
                         <td data-title="Payment">
+                            <a onclick="window.open('{{url('/storage/uploads/payment/'.$row->bukti_transfer)}}', '_blank', 'location=yes,height=970,width=500,scrollbars=yes,status=yes');" class="btn btn-sm btn-secondary btn-pill w-100">
 
-                            <a onclick="window.open('{{url('/order/payment/'.Crypt::encrypt($row->invoices_id))}}', '_blank', 'location=yes,height=970,width=500,scrollbars=yes,status=yes');" class="btn btn-sm btn-secondary btn-pill w-100">
-                                Payment Link
+                                Lihat Bukti Transfer
                             </a>
                         </td>
                         <td>

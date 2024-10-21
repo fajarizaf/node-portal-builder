@@ -9,7 +9,8 @@
 @endif
 
 @if(session()->has('failed'))
-<div class="alert alert-important alert-failed alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+<div class="alert alert-important alert-danger alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+
     {{ session('failed') }}
 
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -143,7 +144,7 @@
                 <div class="row row-cards" style="margin-top:50px;">
 
                     <div class="col-12 nav-persona">
-                        <a href="{{url('/store/settings/'.urlencode(base64_encode($site_active)).'')}}">
+                        <a href="{{url('/manage/store/settings/'.urlencode(base64_encode($site_active)).'')}}">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
@@ -168,7 +169,7 @@
 
 
                         <div class="card card-sm">
-                            <a href="{{url('/store/order/'.urlencode(base64_encode($site_active)).'')}}">
+                            <a href="{{url('/manage/store/order/'.urlencode(base64_encode($site_active)).'')}}">
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col">
@@ -188,7 +189,7 @@
                     </div>
 
                     <div class="col-12 nav-persona">
-                        <a href="{{url('/store/payment/'.urlencode(base64_encode($site_active)).'')}}">
+                        <a href="{{url('/manage/store/payment/'.urlencode(base64_encode($site_active)).'')}}">
                             <div class="card card-sm active">
                                 <div class="card-body">
                                     <div class="row align-items-center">

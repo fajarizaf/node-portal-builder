@@ -9,7 +9,8 @@
 @endif
 
 @if(session()->has('failed'))
-<div class="alert alert-important alert-failed alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+<div class="alert alert-important alert-danger alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+
     {{ session('failed') }}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -121,7 +122,7 @@
                 <p class="hero-description mt-4 aos-init aos-animate" data-aos="zoom-y-out" data-aos-delay="150" style="font-size:16px;color:#666">Ganti logo usahamu, sesuaikan warna, tentukan metode pembayaran, tambahkan informasi pembayaran dan lain lain</p>
                 <br />
                 <div class="btn-list">
-                    <a href="{{url('/store/settings/'.urlencode(base64_encode($site_active)).'')}}" class="btn btn-primary d-none d-sm-inline-block @if($site_active) @else disabled @endif">
+                    <a href="{{url('/manage/store/settings/'.urlencode(base64_encode($site_active)).'')}}" class="btn btn-primary d-none d-sm-inline-block @if($site_active) @else disabled @endif">
                         <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -156,7 +157,7 @@
                     type: 'GET'
                     , url: "{{ route('run_store_laptop_snapshoot') }}"
                     , data: {
-                        domain_name: 'adadsa'
+                        domain_name: '{{StoreHelper::Url_snapshoot_detail($site_active)}}'
                     , }
                     , success: function(res) {
                         $('.image_loader_1').fadeOut('slow')

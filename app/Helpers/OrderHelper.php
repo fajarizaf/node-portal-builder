@@ -8,10 +8,12 @@ use App\Models\Product_plan_fitur;
 use App\Models\Site;
 use App\Models\User_invoices;
 use App\Models\User_invoices_item;
+use App\Models\User_invoices_confirm;
 use App\Models\User_order_item;
 use App\Models\User_orders;
 use App\Models\User_payment;
 use App\Models\Users;
+use App\Models\Emaillogs;
 use Carbon\Carbon;
 use Session;
 
@@ -28,7 +30,7 @@ class OrderHelper
 
         $quota = Product_plan_fitur::where('key','order')->where('product_id',Session::get('user_package'))->first()->value;
 
-        $count_order = User_orders::where('user_id',$user_id)
+        $count_order = User_orders::where('seller_id',$user_id)
         ->whereMonth('created_at', Carbon::now()->month)
         ->whereYear('created_at', Carbon::now()->year)
         ->count();
@@ -73,6 +75,47 @@ class OrderHelper
         
         return [
             'customer' => $customer,
+        ];
+
+    }
+
+
+    public static function Get_invoices($order_id) {
+
+        $id = User_invoices_item::where('order_id',$order_id)->first()->invoices_id;
+        
+        return [
+            'invoices_id' => $id,
+        ];
+
+    }
+
+    public static function Get_invoices_status($invoices_id) {
+
+        $status = User_invoices::where('id',$invoices_id)->first()->status_id;
+        
+        return [
+            'status' => $status,
+        ];
+
+    }
+
+    public static function Log_email_status($id) {
+
+        $status = Emaillogs::where('id',$id)->where('res', 'like', '%success%')->count();
+        
+        return [
+            'status' => $status,
+        ];
+
+    }
+
+    public static function is_confirm($invoices_id) {
+
+        $status = User_invoices_confirm::where('invoices_id',$invoices_id)->count();
+        
+        return [
+            'status' => $status,
         ];
 
     }

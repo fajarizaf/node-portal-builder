@@ -9,7 +9,8 @@
 @endif
 
 @if(session()->has('failed'))
-<div class="alert alert-important alert-failed alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+<div class="alert alert-important alert-danger alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+
     {{ session('failed') }}
 
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -154,7 +155,7 @@
                         </td>
                         <td data-title="Metode Pembayaran">
 
-                            <a href="invoice.html" class="text-reset" tabindex="-1">
+                            <a href="#" class="text-reset" tabindex="-1">
                                 <b><br />{{$row->payment_method_name}}</b><br />
                                 <small>{{$row->payment_method_group}}</small>
                             </a>

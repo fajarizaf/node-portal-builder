@@ -9,7 +9,8 @@
 @endif
 
 @if(session()->has('failed'))
-<div class="alert alert-important alert-failed alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+<div class="alert alert-important alert-danger alert-dismissible fade show" role="alert" style="border-radius:0px;margin:0px">
+
     {{ session('failed') }}
 
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -108,13 +109,14 @@
             <div class="card-header">
                 <div class="row" style="width:100%">
                     <div class="col-lg-4 p-4">
-                        <small style="color:green">Saldo Aktif ( Settled )</small>
-                        <h1>IDR. {{number_format($saldo_active,'0')}}</h1>
+                        <small style="color:green">Saldo Aktif ( Settled )</small><br />
+                        <span class="h1">IDR. {{number_format($saldo_active,'0')}}</span><br />
+                        <small>Saldo diatas merupakan saldo yang sudah dapat anda cairkan ke rekening pribadi anda</small>
                     </div>
                     <div class="col-lg-5 p-4">
                         <small>Saldo Pending (Paid)</small><br />
-                        <span class="h1">IDR. {{number_format($saldo_pending,'0')}}</span>
-
+                        <span class="h1">IDR. {{number_format($saldo_pending,'0')}}</span><br />
+                        <small>Saldo diatas merupakan saldo dari transaksi order yang telah dibayarkan, dan baru dapat di cairkan setelah 7 hari terhitung dari transaksi dibayarkan.</small>
                     </div>
 
                     @if($status_verifikasi == 0)

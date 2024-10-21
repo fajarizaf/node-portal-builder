@@ -43,16 +43,15 @@
 
         @auth
         @if(Session::get('user_package') != '')
-        @include('component.navbar')
+        @include('component.navbar-side')
         @endif
         @else
 
         @endauth
 
-        <div class="page-wrapper">
+        <section class="page-wrapper home-section">
             @yield('container')
-        </div>
-
+        </section>
 
     </div>
 

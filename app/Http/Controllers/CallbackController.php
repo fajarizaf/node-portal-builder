@@ -47,11 +47,12 @@ class CallbackController extends DuitkuBaseController
 
             DB::commit();
 
-            // send email download product
+            // pembayaran diterima, send email download product
             Http::withToken(env('BACKEND_TOKEN'))
             ->post(env('BACKEND_EMAIL').'/email/send', [
-                'action' => 'Link Product Download',
+                'action' => 'Link Produk Download',
                 'send_to' => CustomerHelper::customer_info_byinvoices($orderId)->email,
+                'module_id' => $orderId,
                 'logo' => url('/storage/uploads/avatar/'.StoreHelper::Get_logo($orderId)),
                 'hash' => Crypt::encrypt($orderId)
             ]);
