@@ -338,6 +338,8 @@ class StoreController extends Controller
                 ->setOption('landscape', false)
                 ->windowSize(450, 924)
                 ->waitUntilNetworkIdle()
+                ->setOption('headless', true)
+                ->timeout(120)
                 ->save(public_path() . '/storage/uploads/snapshoot/mobile-'.$request->site_active.'.png');
 
             return url('/storage/uploads/snapshoot/mobile-'.$request->site_active.'.png');
@@ -361,6 +363,8 @@ class StoreController extends Controller
                 ->setOption('landscape', false)
                 ->windowSize(1000, 650)
                 ->waitUntilNetworkIdle()
+                ->setOption('headless', true)
+                ->timeout(120)
                 ->save(public_path() . '/storage/uploads/snapshoot/web-'.$request->site_active.'.png');
 
             return url('/storage/uploads/snapshoot/web-'.$request->site_active.'.png');
