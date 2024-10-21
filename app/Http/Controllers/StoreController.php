@@ -331,7 +331,7 @@ class StoreController extends Controller
         
         try {
             
-            Browsershot::url($request->domain_name)
+            Browsershot::url('https://getbootstrap.com/')
                 ->setOption('landscape', false)
                 ->windowSize(300, 616)
                 ->waitUntilNetworkIdle()
@@ -352,7 +352,7 @@ class StoreController extends Controller
         
         try {
             
-            Browsershot::url($request->domain_name)
+            Browsershot::url('https://getbootstrap.com/')
                 ->setOption('landscape', false)
                 ->windowSize(1200, 780)
                 ->waitUntilNetworkIdle()
