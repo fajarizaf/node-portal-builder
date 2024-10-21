@@ -331,7 +331,7 @@ class StoreController extends Controller
         
         try {
             
-            Browsershot::url('https://getbootstrap.com/')
+            Browsershot::url($request->domain_name)
                 ->setNodeBinary('/bin/node')
                 ->setNpmBinary('/bin/npm')
                 ->setChromePath("/usr/bin/chromium-browser")
@@ -354,7 +354,7 @@ class StoreController extends Controller
         
         try {
             
-            Browsershot::url('https://getbootstrap.com/')
+            Browsershot::url($request->domain_name)
                 ->setNodeBinary('/bin/node')
                 ->setNpmBinary('/bin/npm')
                 ->setChromePath("/usr/bin/chromium-browser")
