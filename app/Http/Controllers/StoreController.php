@@ -337,6 +337,7 @@ class StoreController extends Controller
                 ->setChromePath("/usr/bin/chromium-browser")
                 ->setOption('landscape', false)
                 ->windowSize(450, 924)
+                ->waitUntilNetworkIdle()
                 ->save(public_path() . '/storage/uploads/snapshoot/mobile-'.$request->site_active.'.png');
 
             return url('/storage/uploads/snapshoot/mobile-'.$request->site_active.'.png');
@@ -358,7 +359,8 @@ class StoreController extends Controller
                 ->setNpmBinary('/bin/npm')
                 ->setChromePath("/usr/bin/chromium-browser")
                 ->setOption('landscape', false)
-                ->windowSize(1200, 780)
+                ->windowSize(1000, 650)
+                ->waitUntilNetworkIdle()
                 ->save(public_path() . '/storage/uploads/snapshoot/web-'.$request->site_active.'.png');
 
             return url('/storage/uploads/snapshoot/web-'.$request->site_active.'.png');
