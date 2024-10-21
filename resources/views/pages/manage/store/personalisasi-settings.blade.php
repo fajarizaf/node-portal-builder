@@ -382,12 +382,7 @@
                                     $.ajax({
 
                                         type: 'GET'
-                                        , url: "{{ route('run_store_mobile_snapshoot') }}"
-                                        , data: {
-                                            domain_name: '{{StoreHelper::Url_snapshoot_detail($site_active)}}'
-                                            , site_active: site_id
-
-                                        , }
+                                        , url: "https://node-screenshot-af6c40f979b9.herokuapp.com/take/mobile?domain={{StoreHelper::Url_snapshoot_detail($site_active)}}&site={{$site_active}}"
                                         , success: function(res) {
                                             $('.image_loader_1').fadeOut('slow')
                                             $('.screnshoot-1').attr("src", res)
@@ -454,11 +449,7 @@
                     $.ajax({
 
                         type: 'GET'
-                        , url: "{{ route('run_store_mobile_snapshoot') }}"
-                        , data: {
-                            domain_name: '{{StoreHelper::Url_snapshoot_detail($site_active)}}'
-                            , site_active: site_id
-                        , }
+                        , url: "https://node-screenshot-af6c40f979b9.herokuapp.com/take/mobile?domain={{StoreHelper::Url_snapshoot_detail($site_active)}}&site={{$site_active}}"
                         , success: function(res) {
                             $('.image_loader_1').fadeOut('slow')
                             $('.screnshoot-1').attr("src", res)
@@ -502,11 +493,7 @@
                     $.ajax({
 
                         type: 'GET'
-                        , url: "{{ route('run_store_mobile_snapshoot') }}"
-                        , data: {
-                            domain_name: '{{StoreHelper::Url_snapshoot_detail($site_active)}}'
-                            , site_active: site_id
-                        , }
+                        , url: "https://node-screenshot-af6c40f979b9.herokuapp.com/take/mobile?domain={{StoreHelper::Url_snapshoot_detail($site_active)}}&site={{$site_active}}"
                         , success: function(res) {
                             $('.image_loader_1').fadeOut('slow')
                             $('.screnshoot-1').attr("src", res)
@@ -596,11 +583,7 @@
                     $.ajax({
 
                         type: 'GET'
-                        , url: "{{ route('run_store_mobile_snapshoot') }}"
-                        , data: {
-                            domain_name: '{{StoreHelper::Url_snapshoot_detail($site_active)}}'
-                            , site_active: site_id
-                        , }
+                        , url: "https://node-screenshot-af6c40f979b9.herokuapp.com/take/mobile?domain={{StoreHelper::Url_snapshoot_detail($site_active)}}&site={{$site_active}}"
                         , success: function(res) {
                             $('.image_loader_1').fadeOut('slow')
                             $('.screnshoot-1').attr("src", res)
