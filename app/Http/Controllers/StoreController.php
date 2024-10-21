@@ -340,8 +340,7 @@ class StoreController extends Controller
             return url('/storage/uploads/snapshoot/mobile-'.$request->site_active.'.png');
 
         } catch (\Throwable $th) {
-            
-            return url('/storage/uploads/snapshoot/screenshot.png');
+            return $th;
             
         }
 
@@ -361,8 +360,7 @@ class StoreController extends Controller
             return url('/storage/uploads/snapshoot/web-'.$request->site_active.'.png');
 
         } catch (\Throwable $th) {
-            
-            return url('/storage/uploads/snapshoot/screenshot.png');
+            return $th;
         }
 
     }
