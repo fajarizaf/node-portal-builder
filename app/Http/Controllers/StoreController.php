@@ -335,13 +335,13 @@ class StoreController extends Controller
                 ->setOption('landscape', false)
                 ->windowSize(300, 616)
                 ->waitUntilNetworkIdle()
-                ->save(storage_path() . '/uploads/order.png');
+                ->save(public_path() . '/storage/uploads/snapshoot/mobile-'.$request->site_active.'.png');
 
-            return url('/storage/uploads/order.png');
+            return url('/storage/uploads/snapshoot/mobile-'.$request->site_active.'.png');
 
         } catch (\Throwable $th) {
             
-            return url('/storage/uploads/screenshot.png');
+            return url('/storage/uploads/snapshoot/screenshot.png');
             
         }
 
@@ -356,13 +356,13 @@ class StoreController extends Controller
                 ->setOption('landscape', false)
                 ->windowSize(1200, 780)
                 ->waitUntilNetworkIdle()
-                ->save(storage_path() . '/uploads/order.png');
+                ->save(public_path() . '/storage/uploads/snapshoot/web-'.$request->site_active.'.png');
 
-            return url('/storage/uploads/order.png');
+            return url('/storage/uploads/snapshoot/web-'.$request->site_active.'.png');
 
         } catch (\Throwable $th) {
             
-            return url('/storage/uploads/screenshot.png');
+            return url('/storage/uploads/snapshoot/screenshot.png');
         }
 
     }

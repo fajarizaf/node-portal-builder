@@ -377,12 +377,16 @@
                             <script type="text/javascript">
                                 $(document).ready(function() {
 
+                                    var site_id = $("input[name=site]").val();
+
                                     $.ajax({
 
                                         type: 'GET'
                                         , url: "{{ route('run_store_mobile_snapshoot') }}"
                                         , data: {
                                             domain_name: '{{StoreHelper::Url_snapshoot_detail($site_active)}}'
+                                            , site_active: site_id
+
                                         , }
                                         , success: function(res) {
                                             $('.image_loader_1').fadeOut('slow')
@@ -453,6 +457,7 @@
                         , url: "{{ route('run_store_mobile_snapshoot') }}"
                         , data: {
                             domain_name: '{{StoreHelper::Url_snapshoot_detail($site_active)}}'
+                            , site_active: site_id
                         , }
                         , success: function(res) {
                             $('.image_loader_1').fadeOut('slow')
@@ -499,7 +504,8 @@
                         type: 'GET'
                         , url: "{{ route('run_store_mobile_snapshoot') }}"
                         , data: {
-                            domain_name: 'adadsa'
+                            domain_name: '{{StoreHelper::Url_snapshoot_detail($site_active)}}'
+                            , site_active: site_id
                         , }
                         , success: function(res) {
                             $('.image_loader_1').fadeOut('slow')

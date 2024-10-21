@@ -158,6 +158,7 @@
                     , url: "{{ route('run_store_laptop_snapshoot') }}"
                     , data: {
                         domain_name: '{{StoreHelper::Url_snapshoot_detail($site_active)}}'
+                        , site_active: '{{$site_active}}'
                     , }
                     , success: function(res) {
                         $('.image_loader_1').fadeOut('slow')
