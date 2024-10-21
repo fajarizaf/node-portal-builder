@@ -336,7 +336,7 @@ class StoreController extends Controller
                 ->setNpmBinary('/bin/npm')
                 ->setChromePath("/usr/bin/chromium-browser")
                 ->setOption('landscape', false)
-                ->windowSize(300, 616)
+                ->windowSize(450, 616)
                 ->waitUntilNetworkIdle()
                 ->save(public_path() . '/storage/uploads/snapshoot/mobile-'.$request->site_active.'.png');
 

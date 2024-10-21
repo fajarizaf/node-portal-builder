@@ -28,10 +28,10 @@
     .box-laptop {
         position: relative;
         background: #000;
-        width: 632px;
-        height: 400px;
-        left: 92px;
-        top: -23px;
+        width: 631px;
+        height: 396px;
+        left: 93px;
+        top: -22px;
         border-radius: 2px;
         padding: 0px;
         margin: 0px;
